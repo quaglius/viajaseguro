@@ -2,8 +2,6 @@
   const form = document.getElementById('cotizador-form');
   const origenSelect = document.getElementById('origen');
   const destinoSelect = document.getElementById('destino');
-  const pasajerosWrap = document.getElementById('pasajeros-edades');
-  const addPasajeroBtn = document.getElementById('add-pasajero');
   const resultsSection = document.getElementById('resultados');
   const resultsList = document.getElementById('resultados-lista');
   const resultsMeta = document.getElementById('resultados-meta');
@@ -13,9 +11,72 @@
   const modalBody = document.getElementById('modal-comprar-body');
   const modalClose = document.getElementById('modal-close');
 
+  const viajerosTrigger = document.getElementById('viajeros-trigger');
+  const viajerosTriggerText = document.getElementById('viajeros-trigger-text');
+  const viajerosPanel = document.getElementById('viajeros-panel');
+  const viajerosTotalLabel = document.getElementById('viajeros-total');
+  const viajerosListoBtn = document.getElementById('viajeros-listo');
+  const pasajerosSelector = document.querySelector('.pasajeros-selector');
+
   const CURRENCY_SYMBOLS = { 3: 'US$', 4: '€', 6: 'Bs', 7: 'AR$', 104: 'R$', 105: 'COL$', 107: 'MX$', 109: 'CLP$' };
   let formStarted = false;
   let lastCurrencyId = 3; // fallback USD si la API no informa moneda explícita
+
+  // --- 0. Selector de pasajeros (adultos / menores / seniors) --------------
+  // La API pide una edad puntual por pasajero, no un conteo por franja. Para
+  // no pedirle el detalle al usuario, usamos una edad representativa de cada
+  // franja al armar el array `edades` que espera Cardinal.
+  const EDAD_REPRESENTATIVA = { adultos: 30, menores: 10, seniors: 78 };
+  const conteoViajeros = { adultos: 0, menores: 0, seniors: 0 };
+
+  function totalViajeros() {
+    return conteoViajeros.adultos + conteoViajeros.menores + conteoViajeros.seniors;
+  }
+
+  function edadesDesdeConteo() {
+    return Object.entries(conteoViajeros).flatMap(([tipo, cantidad]) =>
+      Array(cantidad).fill(EDAD_REPRESENTATIVA[tipo])
+    );
+  }
+
+  function actualizarViajerosUI() {
+    const total = totalViajeros();
+    viajerosTriggerText.textContent = total > 0 ? `${total} viajero${total === 1 ? '' : 's'}` : '¿Cuántos viajan?';
+    viajerosTotalLabel.textContent = `${total} viajero${total === 1 ? '' : 's'}`;
+    viajerosPanel.querySelectorAll('.stepper').forEach((stepper) => {
+      const tipo = stepper.dataset.tipo;
+      stepper.querySelector('[data-count]').textContent = conteoViajeros[tipo];
+      stepper.querySelector('[data-action="dec"]').disabled = conteoViajeros[tipo] === 0;
+    });
+  }
+
+  function abrirViajerosPanel() {
+    viajerosPanel.hidden = false;
+    viajerosTrigger.setAttribute('aria-expanded', 'true');
+  }
+  function cerrarViajerosPanel() {
+    viajerosPanel.hidden = true;
+    viajerosTrigger.setAttribute('aria-expanded', 'false');
+  }
+
+  viajerosTrigger.addEventListener('click', () => {
+    viajerosPanel.hidden ? abrirViajerosPanel() : cerrarViajerosPanel();
+  });
+
+  viajerosPanel.addEventListener('click', (e) => {
+    const btn = e.target.closest('.stepper__btn');
+    if (!btn) return;
+    const tipo = btn.closest('.stepper').dataset.tipo;
+    const delta = btn.dataset.action === 'inc' ? 1 : -1;
+    conteoViajeros[tipo] = Math.max(0, Math.min(9, conteoViajeros[tipo] + delta));
+    actualizarViajerosUI();
+  });
+
+  viajerosListoBtn.addEventListener('click', cerrarViajerosPanel);
+
+  document.addEventListener('click', (e) => {
+    if (!pasajerosSelector.contains(e.target)) cerrarViajerosPanel();
+  });
 
   // --- 1. Cargar orígenes / destinos reales desde la API ---------------------
   async function cargarParametros() {
@@ -48,22 +109,6 @@
     });
   }
 
-  // --- 2. Pasajeros dinámicos --------------------------------------------
-  function addPasajeroInput() {
-    const row = document.createElement('div');
-    row.className = 'pasajero-row';
-    row.innerHTML = `
-      <input type="number" min="0" max="99" placeholder="Edad" class="edad-input" required />
-      <button type="button" class="btn-remove-pasajero" aria-label="Quitar pasajero">✕</button>
-    `;
-    row.querySelector('.btn-remove-pasajero').addEventListener('click', () => {
-      if (pasajerosWrap.children.length > 1) row.remove();
-    });
-    pasajerosWrap.appendChild(row);
-  }
-  addPasajeroBtn.addEventListener('click', addPasajeroInput);
-  addPasajeroInput(); // arranca con 1 pasajero
-
   // --- 3. Tracking de inicio de formulario --------------------------------
   form.addEventListener(
     'focusin',
@@ -81,9 +126,7 @@
     e.preventDefault();
     hideError();
 
-    const edades = Array.from(pasajerosWrap.querySelectorAll('.edad-input'))
-      .map((i) => i.value)
-      .filter((v) => v !== '');
+    const edades = edadesDesdeConteo();
 
     const payload = {
       origenId: origenSelect.value,
@@ -91,11 +134,13 @@
       fechaSalida: document.getElementById('fecha-salida').value,
       fechaRegreso: document.getElementById('fecha-regreso').value,
       edades,
-      email: document.getElementById('email').value,
+      // El POC no le pide el email al usuario (no emite nada real); mandamos
+      // uno sintético porque la API de Cardinal lo exige como obligatorio.
+      email: `cotizacion.${Date.now()}@viajaseguro.app`,
     };
 
-    if (!payload.origenId || !payload.destinoId || !payload.fechaSalida || !payload.fechaRegreso || !edades.length || !payload.email) {
-      showError('Completá todos los campos para cotizar.');
+    if (!payload.origenId || !payload.destinoId || !payload.fechaSalida || !payload.fechaRegreso || !edades.length) {
+      showError('Completá origen, destino, fechas y al menos un viajero para cotizar.');
       return;
     }
 
@@ -153,8 +198,9 @@
 
     productos.forEach((producto, index) => {
       const card = document.createElement('article');
-      card.className = 'plan-card';
+      card.className = 'plan-card' + (index === 0 ? ' plan-card--destacado' : '');
       card.innerHTML = `
+        ${index === 0 ? '<span class="plan-card__badge">Mejor precio</span>' : ''}
         <div class="plan-card__header">
           <h3>${producto.productoNombre}</h3>
           ${producto.costoLista && producto.costoLista !== producto.costoFinal
@@ -204,5 +250,6 @@
     if (e.target === modal) modal.hidden = true;
   });
 
+  actualizarViajerosUI();
   cargarParametros();
 })();

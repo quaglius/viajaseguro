@@ -58,16 +58,54 @@
           <input type="date" id="fecha-regreso" required />
         </div>
 
-        <div class="field pasajeros-block">
-          <label>Pasajeros (edad de cada uno)</label>
-          <div id="pasajeros-edades"></div>
-          <button type="button" id="add-pasajero" class="btn-add-pasajero">+ Agregar pasajero</button>
-        </div>
-
-        <div class="field email-field">
-          <label for="email">Tu email</label>
-          <input type="email" id="email" placeholder="nombre@mail.com" required />
-          <small>Te mandamos ahí una copia de la cotización.</small>
+        <div class="field pasajeros-field">
+          <label id="viajeros-label" for="viajeros-trigger">Viajeros</label>
+          <div class="pasajeros-selector">
+            <button type="button" id="viajeros-trigger" class="pasajeros-trigger" aria-haspopup="true" aria-expanded="false">
+              <span class="pasajeros-trigger__icon" aria-hidden="true">👥</span>
+              <span id="viajeros-trigger-text" class="pasajeros-trigger__text">¿Cuántos viajan?</span>
+              <span class="pasajeros-trigger__chevron" aria-hidden="true">▾</span>
+            </button>
+            <div id="viajeros-panel" class="pasajeros-panel" hidden>
+              <div class="pasajero-tipo" data-tipo="adultos">
+                <div class="pasajero-tipo__info">
+                  <span class="pasajero-tipo__nombre">Adultos</span>
+                  <span class="pasajero-tipo__rango">De 21 a 74 años</span>
+                </div>
+                <div class="stepper" data-tipo="adultos">
+                  <button type="button" class="stepper__btn" data-action="dec" aria-label="Restar adulto">−</button>
+                  <span class="stepper__value" data-count="adultos">0</span>
+                  <button type="button" class="stepper__btn" data-action="inc" aria-label="Sumar adulto">+</button>
+                </div>
+              </div>
+              <div class="pasajero-tipo" data-tipo="menores">
+                <div class="pasajero-tipo__info">
+                  <span class="pasajero-tipo__nombre">Menores</span>
+                  <span class="pasajero-tipo__rango">De 0 a 20 años</span>
+                </div>
+                <div class="stepper" data-tipo="menores">
+                  <button type="button" class="stepper__btn" data-action="dec" aria-label="Restar menor">−</button>
+                  <span class="stepper__value" data-count="menores">0</span>
+                  <button type="button" class="stepper__btn" data-action="inc" aria-label="Sumar menor">+</button>
+                </div>
+              </div>
+              <div class="pasajero-tipo" data-tipo="seniors">
+                <div class="pasajero-tipo__info">
+                  <span class="pasajero-tipo__nombre">Seniors</span>
+                  <span class="pasajero-tipo__rango">De 75 a 84 años</span>
+                </div>
+                <div class="stepper" data-tipo="seniors">
+                  <button type="button" class="stepper__btn" data-action="dec" aria-label="Restar senior">−</button>
+                  <span class="stepper__value" data-count="seniors">0</span>
+                  <button type="button" class="stepper__btn" data-action="inc" aria-label="Sumar senior">+</button>
+                </div>
+              </div>
+              <div class="pasajeros-panel__footer">
+                <span class="pasajeros-panel__total">Total: <strong id="viajeros-total">0 viajeros</strong></span>
+                <button type="button" id="viajeros-listo" class="btn-listo">Listo</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <p id="form-error" class="form-error" hidden></p>
