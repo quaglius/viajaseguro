@@ -51,9 +51,11 @@ img, svg { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px;
+  padding: 16px 24px;
   max-width: 1080px;
   margin: 0 auto;
+  position: relative;
+  z-index: 3;
 }
 .brand {
   font-size: 22px;
@@ -76,16 +78,18 @@ img, svg { max-width: 100%; display: block; }
 /* --- Hero ------------------------------------------------------------- */
 .hero {
   position: relative;
-  background: linear-gradient(160deg, var(--verde-profundo) 0%, #114b47 60%, #0c2e2c 100%);
+  background:
+    radial-gradient(ellipse 900px 500px at 85% -10%, rgba(55, 201, 180, 0.22), transparent 60%),
+    linear-gradient(160deg, var(--verde-profundo) 0%, #114b47 60%, #0c2e2c 100%);
   color: var(--blanco);
-  border-radius: 0 0 40px 40px;
+  border-radius: 0 0 32px 32px;
   overflow: hidden;
-  padding-bottom: 64px;
+  padding-bottom: 36px;
 }
 .hero .container {
   position: relative;
   z-index: 2;
-  padding-top: 40px;
+  padding-top: 16px;
 }
 .hero__eyebrow {
   display: inline-flex;
@@ -96,32 +100,32 @@ img, svg { max-width: 100%; display: block; }
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 13px;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 .hero h1 {
-  font-size: clamp(32px, 5vw, 52px);
-  line-height: 1.05;
+  font-size: clamp(28px, 4.2vw, 44px);
+  line-height: 1.08;
   max-width: 640px;
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 .hero h1 em {
   font-style: normal;
   color: var(--menta);
 }
 .hero p.lead {
-  font-size: 18px;
+  font-size: 16px;
   max-width: 520px;
   opacity: 0.88;
-  margin: 0 0 8px;
+  margin: 0;
 }
 
 /* Ruta punteada decorativa (elemento firma) */
 .route-svg {
   position: absolute;
-  top: 40px;
+  top: 20px;
   right: -40px;
-  width: 480px;
-  opacity: 0.9;
+  width: 400px;
+  opacity: 0.85;
   z-index: 1;
 }
 .route-svg .dash {
@@ -178,6 +182,14 @@ img, svg { max-width: 100%; display: block; }
   background: var(--arena);
   color: var(--verde-texto);
 }
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath fill='%2337c9b4' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 34px;
+}
 .field select:focus,
 .field input:focus {
   outline: 3px solid var(--menta-suave);
@@ -185,8 +197,8 @@ img, svg { max-width: 100%; display: block; }
 }
 
 /* --- Selector de pasajeros (desplegable con steppers) ------------------- */
-.pasajeros-field { grid-column: span 2; position: relative; }
-.pasajeros-selector { position: relative; }
+.pasajeros-field { grid-column: 1 / -1; position: relative; z-index: 5; }
+.pasajeros-selector { position: relative; max-width: 360px; }
 
 .pasajeros-trigger {
   display: flex;
@@ -261,7 +273,13 @@ img, svg { max-width: 100%; display: block; }
 }
 .stepper__btn:not(:disabled):hover { background: var(--menta); color: var(--blanco); }
 .stepper__btn:disabled { opacity: 0.35; cursor: not-allowed; }
-.stepper__value { min-width: 16px; text-align: center; font-weight: 700; }
+.stepper__value {
+  min-width: 22px;
+  text-align: center;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--verde-profundo);
+}
 
 .pasajeros-panel__footer {
   display: flex;

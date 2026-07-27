@@ -10,6 +10,8 @@
   const modal = document.getElementById('modal-comprar');
   const modalBody = document.getElementById('modal-comprar-body');
   const modalClose = document.getElementById('modal-close');
+  const fechaSalidaInput = document.getElementById('fecha-salida');
+  const fechaRegresoInput = document.getElementById('fecha-regreso');
 
   const viajerosTrigger = document.getElementById('viajeros-trigger');
   const viajerosTriggerText = document.getElementById('viajeros-trigger-text');
@@ -18,9 +20,18 @@
   const viajerosListoBtn = document.getElementById('viajeros-listo');
   const pasajerosSelector = document.querySelector('.pasajeros-selector');
 
-  const CURRENCY_SYMBOLS = { 3: 'US$', 4: '€', 6: 'Bs', 7: 'AR$', 104: 'R$', 105: 'COL$', 107: 'MX$', 109: 'CLP$' };
+  // id de moneda (Cardinal) → símbolo e ISO 4217 (para mostrar y para GA4).
+  const MONEDAS = {
+    3: { simbolo: 'US$', iso: 'USD' },
+    4: { simbolo: '€', iso: 'EUR' },
+    6: { simbolo: 'Bs', iso: 'VES' },
+    7: { simbolo: 'AR$', iso: 'ARS' },
+    104: { simbolo: 'R$', iso: 'BRL' },
+    105: { simbolo: 'COL$', iso: 'COP' },
+    107: { simbolo: 'MX$', iso: 'MXN' },
+    109: { simbolo: 'CLP$', iso: 'CLP' },
+  };
   let formStarted = false;
-  let lastCurrencyId = 3; // fallback USD si la API no informa moneda explícita
 
   // --- 0. Selector de pasajeros (adultos / menores / seniors) --------------
   // La API pide una edad puntual por pasajero, no un conteo por franja. Para
@@ -79,10 +90,32 @@
   });
 
   // --- 1. Cargar orígenes / destinos reales desde la API ---------------------
+  // Cacheados en localStorage 10 minutos: es un catálogo de países que casi
+  // no cambia, y la llamada a Cardinal puede tardar — así el formulario queda
+  // usable al instante en visitas repetidas.
+  const PARAMETROS_CACHE_KEY = 'vs_parametros_cache_v1';
+  const PARAMETROS_CACHE_MS = 10 * 60 * 1000;
+
+  async function obtenerParametros() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(PARAMETROS_CACHE_KEY) || 'null');
+      if (cached && Date.now() - cached.ts < PARAMETROS_CACHE_MS) return cached.data;
+    } catch {
+      /* localStorage corrupto o deshabilitado: seguimos con el fetch */
+    }
+    const resp = await fetch('/api/parametros');
+    const data = await resp.json();
+    try {
+      localStorage.setItem(PARAMETROS_CACHE_KEY, JSON.stringify({ ts: Date.now(), data }));
+    } catch {
+      /* ignorar cuota excedida */
+    }
+    return data;
+  }
+
   async function cargarParametros() {
     try {
-      const resp = await fetch('/api/parametros');
-      const data = await resp.json();
+      const data = await obtenerParametros();
 
       // El endpoint /parametros de Cardinal todavía no lista `destinos` para
       // este agente aunque /cotizar ya los acepta (desfasaje conocido de su
@@ -100,12 +133,15 @@
         );
         submitBtn.disabled = true;
       }
+
+      aplicarBusquedaDesdeUrl();
     } catch (err) {
       showError('No se pudieron cargar los países y destinos desde Cardinal.');
     }
   }
 
   function fillSelect(select, items, labelKey) {
+    const valorPrevio = select.value;
     select.innerHTML = '<option value="">Seleccioná una opción</option>';
     items.forEach((item) => {
       const opt = document.createElement('option');
@@ -113,6 +149,47 @@
       opt.textContent = item[labelKey];
       select.appendChild(opt);
     });
+    if (valorPrevio) select.value = valorPrevio;
+  }
+
+  // --- 2. Búsqueda vía URL — para compartir un link con la cotización lista ---
+  const PARAM_KEYS = { origen: 'origen', destino: 'destino', salida: 'salida', regreso: 'regreso', adultos: 'adultos', menores: 'menores', seniors: 'seniors' };
+
+  function aplicarBusquedaDesdeUrl() {
+    const p = new URLSearchParams(location.search);
+    const origenId = p.get(PARAM_KEYS.origen);
+    const destinoId = p.get(PARAM_KEYS.destino);
+    const salida = p.get(PARAM_KEYS.salida);
+    const regreso = p.get(PARAM_KEYS.regreso);
+    const adultos = parseInt(p.get(PARAM_KEYS.adultos), 10) || 0;
+    const menores = parseInt(p.get(PARAM_KEYS.menores), 10) || 0;
+    const seniors = parseInt(p.get(PARAM_KEYS.seniors), 10) || 0;
+
+    if (origenId) origenSelect.value = origenId;
+    if (destinoId) destinoSelect.value = destinoId;
+    if (salida) fechaSalidaInput.value = salida;
+    if (regreso) fechaRegresoInput.value = regreso;
+    if (adultos || menores || seniors) {
+      conteoViajeros.adultos = adultos;
+      conteoViajeros.menores = menores;
+      conteoViajeros.seniors = seniors;
+      actualizarViajerosUI();
+    }
+
+    const busquedaCompleta = origenSelect.value && destinoSelect.value && salida && regreso && (adultos + menores + seniors) > 0;
+    if (busquedaCompleta) ejecutarCotizacion();
+  }
+
+  function actualizarUrlConBusqueda(payload) {
+    const p = new URLSearchParams();
+    p.set(PARAM_KEYS.origen, payload.origenId);
+    p.set(PARAM_KEYS.destino, payload.destinoId);
+    p.set(PARAM_KEYS.salida, payload.fechaSalida);
+    p.set(PARAM_KEYS.regreso, payload.fechaRegreso);
+    p.set(PARAM_KEYS.adultos, conteoViajeros.adultos);
+    p.set(PARAM_KEYS.menores, conteoViajeros.menores);
+    p.set(PARAM_KEYS.seniors, conteoViajeros.seniors);
+    history.replaceState(null, '', `?${p.toString()}`);
   }
 
   // --- 3. Tracking de inicio de formulario --------------------------------
@@ -128,8 +205,12 @@
   );
 
   // --- 4. Submit / cotización ----------------------------------------------
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
+    ejecutarCotizacion();
+  });
+
+  async function ejecutarCotizacion() {
     hideError();
 
     const edades = edadesDesdeConteo();
@@ -137,8 +218,8 @@
     const payload = {
       origenId: origenSelect.value,
       destinoId: destinoSelect.value,
-      fechaSalida: document.getElementById('fecha-salida').value,
-      fechaRegreso: document.getElementById('fecha-regreso').value,
+      fechaSalida: fechaSalidaInput.value,
+      fechaRegreso: fechaRegresoInput.value,
       edades,
       // El POC no le pide el email al usuario (no emite nada real); mandamos
       // uno sintético porque la API de Cardinal lo exige como obligatorio.
@@ -149,6 +230,8 @@
       showError('Completá origen, destino, fechas y al menos un viajero para cotizar.');
       return;
     }
+
+    actualizarUrlConBusqueda(payload);
 
     window.track('search', {
       search_term: `${origenSelect.selectedOptions[0]?.textContent} → ${destinoSelect.selectedOptions[0]?.textContent}`,
@@ -176,7 +259,7 @@
     } finally {
       setLoading(false);
     }
-  });
+  }
 
   function setLoading(isLoading) {
     submitBtn.disabled = isLoading;
@@ -192,8 +275,12 @@
   }
 
   // --- 5. Render de resultados + eventos ecommerce ------------------------
+  function monto(costo) {
+    return costo ? Number(costo.amount) : NaN;
+  }
+
   function renderResultados(cotizacion) {
-    const productos = (cotizacion.productos || []).slice().sort((a, b) => a.costoFinal - b.costoFinal);
+    const productos = (cotizacion.productos || []).slice().sort((a, b) => monto(a.costoFinal) - monto(b.costoFinal));
 
     resultsList.innerHTML = '';
     resultsMeta.textContent = `${productos.length} plan${productos.length === 1 ? '' : 'es'} disponible${productos.length === 1 ? '' : 's'}`;
@@ -203,15 +290,14 @@
     }
 
     productos.forEach((producto, index) => {
+      const hayDescuento = producto.costoLista && monto(producto.costoLista) !== monto(producto.costoFinal);
       const card = document.createElement('article');
       card.className = 'plan-card' + (index === 0 ? ' plan-card--destacado' : '');
       card.innerHTML = `
         ${index === 0 ? '<span class="plan-card__badge">Mejor precio</span>' : ''}
         <div class="plan-card__header">
           <h3>${producto.productoNombre}</h3>
-          ${producto.costoLista && producto.costoLista !== producto.costoFinal
-            ? `<span class="plan-card__precio-lista">${formatMoney(producto.costoLista)}</span>`
-            : ''}
+          ${hayDescuento ? `<span class="plan-card__precio-lista">${formatMoney(producto.costoLista)}</span>` : ''}
         </div>
         <p class="plan-card__precio">${formatMoney(producto.costoFinal)}
           <span class="plan-card__precio-detalle">total, todos los pasajeros</span>
@@ -224,7 +310,7 @@
         <button type="button" class="btn-comprar" data-index="${index}">Comprar este plan</button>
       `;
       card.querySelector('.btn-comprar').addEventListener('click', () => {
-        window.gaEcommerce.addToCart(producto, lastCurrencyId, index);
+        window.gaEcommerce.addToCart(producto, monedaIso(producto.costoFinal), index);
         abrirModalComprar(producto, index);
       });
       resultsList.appendChild(card);
@@ -233,11 +319,16 @@
     resultsSection.hidden = false;
     resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-    window.gaEcommerce.viewItemList(productos, lastCurrencyId);
+    if (productos.length) window.gaEcommerce.viewItemList(productos, monedaIso(productos[0].costoFinal));
   }
 
-  function formatMoney(value) {
-    return `${CURRENCY_SYMBOLS[lastCurrencyId] || '$'} ${Number(value).toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
+  function monedaIso(costo) {
+    return (costo && MONEDAS[costo.currency]?.iso) || 'USD';
+  }
+
+  function formatMoney(costo) {
+    const simbolo = (costo && MONEDAS[costo.currency]?.simbolo) || '$';
+    return `${simbolo} ${monto(costo).toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
   }
 
   // --- 6. Modal "Comprar" (sin emitir nada de verdad) -----------------------
@@ -247,7 +338,7 @@
       <p class="modal-plan-nombre">${producto.productoNombre} · ${formatMoney(producto.costoFinal)}</p>
     `;
     modal.hidden = false;
-    window.gaEcommerce.beginCheckout(producto, lastCurrencyId, index);
+    window.gaEcommerce.beginCheckout(producto, monedaIso(producto.costoFinal), index);
   }
   modalClose.addEventListener('click', () => {
     modal.hidden = true;
