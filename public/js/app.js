@@ -84,10 +84,16 @@
       const resp = await fetch('/api/parametros');
       const data = await resp.json();
 
-      fillSelect(origenSelect, data.paisesResidencia || data.origenes || [], 'nombre');
-      fillSelect(destinoSelect, data.destinos || [], 'nombre');
+      // El endpoint /parametros de Cardinal todavía no lista `destinos` para
+      // este agente aunque /cotizar ya los acepta (desfasaje conocido de su
+      // lado), así que usamos el mismo catálogo de países de `paisesResidencia`
+      // como destino — es el mismo listado de países, no un dato inventado.
+      const destinos = (data.destinos && data.destinos.length) ? data.destinos : data.paisesResidencia;
 
-      if (!data.destinos || !data.destinos.length) {
+      fillSelect(origenSelect, data.paisesResidencia || data.origenes || [], 'nombre');
+      fillSelect(destinoSelect, destinos || [], 'nombre');
+
+      if (!destinos || !destinos.length) {
         showError(
           'El agente emisor configurado no tiene destinos habilitados en este entorno. ' +
           'Revisá las credenciales (CARDINAL_AGENTE_GUID) — ver README.'
