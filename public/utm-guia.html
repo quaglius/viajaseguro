@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" data-ga-id="__GA_MEASUREMENT_ID__">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guía de UTMs para dummies — ViajaSeguro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="/">Viaja<span class="brand__dot">Seguro</span></a>
+  <nav><a href="/">← Volver al cotizador</a></nav>
+</header>
+
+<section class="container utm-page">
+  <h1>Cómo armar links con UTM (para dummies)</h1>
+  <p class="lead">
+    Una UTM es simplemente texto que le agregás al final de un link para que,
+    cuando alguien lo clickea y llega al sitio, Google Analytics sepa
+    <strong>de dónde vino</strong> exactamente esa visita. Sin UTMs, todo el
+    tráfico de tus redes o campañas se mezcla y no podés saber qué canal
+    realmente trae ventas.
+  </p>
+
+  <h2>Las 5 partes de una UTM</h2>
+  <div class="utm-table-wrap">
+    <table class="utm-table">
+      <thead>
+        <tr><th>Parámetro</th><th>¿Para qué sirve?</th><th>Ejemplo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>utm_source</code></td><td>De qué plataforma viene (obligatorio)</td><td>google, instagram, facebook, newsletter</td></tr>
+        <tr><td><code>utm_medium</code></td><td>Qué tipo de canal es (obligatorio)</td><td>cpc, social, email, banner</td></tr>
+        <tr><td><code>utm_campaign</code></td><td>Nombre de la campaña puntual (obligatorio)</td><td>verano2026, black-friday</td></tr>
+        <tr><td><code>utm_content</code></td><td>Distingue variantes dentro de la misma campaña (opcional)</td><td>banner-azul, video-1, story-1</td></tr>
+        <tr><td><code>utm_term</code></td><td>Palabra clave puntual, típico de búsqueda paga (opcional)</td><td>seguro+viaje+europa</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="lead">
+    La regla de oro: <strong>siempre en minúscula, sin espacios</strong>
+    (usá guiones "-" en vez de espacios) y usá los mismos nombres de fuente
+    siempre — "instagram" y no a veces "Instagram" y otras "IG", porque
+    Analytics los va a contar como cosas distintas.
+  </p>
+
+  <h2>Ejemplos listos para copiar y pegar</h2>
+
+  <div class="canal-card">
+    <h3>🔍 Google Ads</h3>
+    <p>En Google Ads normalmente no arma la UTM a mano: se activa el
+      "etiquetado automático" y Google agrega su propio parámetro
+      (<code>gclid</code>). Pero si preferís UTMs manuales para tener control
+      total del nombre de campaña, usá la plantilla de seguimiento (Tracking
+      Template) con algo así:</p>
+    <code>https://www.tudominio.com/?utm_source=google&utm_medium=cpc&utm_campaign=seguro-viaje-europa&utm_term=seguro+de+viaje+europa</code>
+    <ul>
+      <li><code>utm_medium=cpc</code> porque es tráfico pago (cost per click)</li>
+      <li><code>utm_term</code> te sirve para ver qué palabra clave convirtió mejor</li>
+    </ul>
+  </div>
+
+  <div class="canal-card">
+    <h3>📸 Instagram</h3>
+    <p>Para un post orgánico en la bio, una story con link, o un anuncio de Instagram Ads:</p>
+    <code>https://www.tudominio.com/?utm_source=instagram&utm_medium=social&utm_campaign=verano2026&utm_content=story-playa</code>
+    <ul>
+      <li>Si es pauta paga (no orgánico), cambiá <code>utm_medium=social</code> por <code>utm_medium=paid-social</code> para diferenciarlo del orgánico</li>
+      <li>Usá <code>utm_content</code> para distinguir "story" de "post del feed" o "reel"</li>
+    </ul>
+  </div>
+
+  <div class="canal-card">
+    <h3>👍 Facebook (Meta Ads)</h3>
+    <code>https://www.tudominio.com/?utm_source=facebook&utm_medium=paid-social&utm_campaign=verano2026&utm_content=video-familia</code>
+    <ul>
+      <li>Meta Ads también tiene sus propias "plantillas de URL" dentro del Administrador de Anuncios — pegá esta misma UTM ahí para que se agregue sola a cada anuncio del conjunto</li>
+      <li>Un mismo <code>utm_campaign</code> para todos los anuncios de una misma promo, y <code>utm_content</code> distinto por cada creatividad, así comparás cuál funcionó mejor</li>
+    </ul>
+  </div>
+
+  <div class="canal-card">
+    <h3>✉️ Email / Newsletter</h3>
+    <code>https://www.tudominio.com/?utm_source=newsletter&utm_medium=email&utm_campaign=promo-octubre&utm_content=boton-principal</code>
+    <ul>
+      <li><code>utm_source</code> podés ponerlo como el proveedor que usás (ej: "mailchimp") o simplemente "newsletter" — lo importante es ser consistente siempre</li>
+      <li>Si el mail tiene dos botones (ej: uno arriba y otro abajo), usá <code>utm_content</code> distinto en cada uno para saber cuál genera más clicks</li>
+    </ul>
+  </div>
+
+  <h2>Cómo se ve en Google Analytics</h2>
+  <p class="lead">
+    Una vez que empieza a llegar tráfico con estos links, en GA4 vas a
+    poder filtrar por <em>Adquisición → Adquisición de tráfico</em> y ver
+    ahí columnas de "Origen", "Medio" y "Campaña" — exactamente los
+    valores de <code>utm_source</code>, <code>utm_medium</code> y
+    <code>utm_campaign</code> que armaste. En este sitio, además, esos
+    valores viajan pegados a cada evento del funnel (búsqueda, ver planes,
+    click en "Comprar"), así que vas a poder ver no sólo cuántas visitas
+    trajo cada canal, sino cuántas de esas visitas llegaron hasta el final
+    del embudo.
+  </p>
+</section>
+
+<footer class="site-footer">
+  <p>ViajaSeguro — proof of concept.</p>
+</footer>
+
+<script src="/js/analytics.js"></script>
+</body>
+</html>

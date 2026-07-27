@@ -1,0 +1,405 @@
+/* -----------------------------------------------------------------------
+   ViajaSeguro — POC de cotizador de asistencia al viajero
+   Paleta: verde-azulado profundo (Cardinal) + coral cálido (AssistCard) +
+   arena cálida de fondo, con acentos tipo "sello de pasaporte".
+   Tipografía: Fraunces (display, con carácter) + Plus Jakarta Sans (UI).
+----------------------------------------------------------------------- */
+
+:root {
+  --verde-profundo: #0f3d3b;
+  --verde-texto: #0b2b29;
+  --menta: #37c9b4;
+  --menta-suave: #d9f2ee;
+  --coral: #ff7a59;
+  --coral-oscuro: #e85f3d;
+  --arena: #fbf8f3;
+  --arena-oscura: #f1eade;
+  --blanco: #ffffff;
+  --borde: #e4ddd0;
+  --sombra: 0 12px 32px rgba(15, 61, 59, 0.12);
+  --radio: 18px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  color: var(--verde-texto);
+  background: var(--arena);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, .brand {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+a { color: inherit; }
+
+img, svg { max-width: 100%; display: block; }
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* --- Header --------------------------------------------------------- */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.brand {
+  font-size: 22px;
+  color: var(--verde-profundo);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand__dot { color: var(--coral); }
+.site-header nav a {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--verde-profundo);
+  opacity: 0.75;
+}
+.site-header nav a:hover { opacity: 1; }
+
+/* --- Hero ------------------------------------------------------------- */
+.hero {
+  position: relative;
+  background: linear-gradient(160deg, var(--verde-profundo) 0%, #114b47 60%, #0c2e2c 100%);
+  color: var(--blanco);
+  border-radius: 0 0 40px 40px;
+  overflow: hidden;
+  padding-bottom: 64px;
+}
+.hero .container {
+  position: relative;
+  z-index: 2;
+  padding-top: 40px;
+}
+.hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.05;
+  max-width: 640px;
+  margin: 0 0 16px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--menta);
+}
+.hero p.lead {
+  font-size: 18px;
+  max-width: 520px;
+  opacity: 0.88;
+  margin: 0 0 8px;
+}
+
+/* Ruta punteada decorativa (elemento firma) */
+.route-svg {
+  position: absolute;
+  top: 40px;
+  right: -40px;
+  width: 480px;
+  opacity: 0.9;
+  z-index: 1;
+}
+.route-svg .dash {
+  stroke-dasharray: 8 10;
+  animation: dash-move 3.5s linear infinite;
+}
+@keyframes dash-move {
+  to { stroke-dashoffset: -180; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .route-svg .dash { animation: none; }
+}
+
+/* --- Card del formulario ------------------------------------------------ */
+.cotizador-card {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 28px;
+  margin-top: 32px;
+  position: relative;
+  z-index: 2;
+}
+.cotizador-card h2 {
+  color: var(--verde-profundo);
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+.cotizador-card .subt {
+  font-size: 14px;
+  color: #5b6d6b;
+  margin: 0 0 20px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--verde-profundo);
+}
+.field select,
+.field input {
+  border: 1.5px solid var(--borde);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  background: var(--arena);
+  color: var(--verde-texto);
+}
+.field select:focus,
+.field input:focus {
+  outline: 3px solid var(--menta-suave);
+  border-color: var(--menta);
+}
+
+.pasajeros-block { grid-column: 1 / -1; }
+#pasajeros-edades { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.pasajero-row { display: flex; gap: 6px; align-items: center; }
+.pasajero-row .edad-input { width: 90px; }
+.btn-remove-pasajero {
+  background: none; border: none; color: var(--coral-oscuro);
+  font-size: 15px; cursor: pointer; padding: 4px 8px;
+}
+.btn-add-pasajero {
+  background: var(--menta-suave);
+  color: var(--verde-profundo);
+  border: none;
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.email-field { grid-column: 1 / -1; }
+.email-field small { font-weight: 400; color: #5b6d6b; }
+
+.form-actions { grid-column: 1 / -1; margin-top: 4px; }
+.btn-primary {
+  background: var(--coral);
+  color: var(--blanco);
+  border: none;
+  border-radius: 14px;
+  padding: 16px 22px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+.btn-primary:hover { background: var(--coral-oscuro); }
+.btn-primary:active { transform: scale(0.99); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.form-error {
+  grid-column: 1 / -1;
+  background: #fdeceb;
+  color: #a13b2a;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+}
+
+/* --- Resultados --------------------------------------------------------- */
+#resultados { padding: 56px 0 80px; }
+#resultados h2 {
+  font-size: 28px;
+  color: var(--verde-profundo);
+  margin-bottom: 2px;
+}
+#resultados-meta { color: #5b6d6b; margin: 0 0 28px; font-size: 14px; }
+
+#resultados-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.plan-card {
+  background: var(--blanco);
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.plan-card:hover { transform: translateY(-3px); box-shadow: var(--sombra); }
+.plan-card__header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.plan-card__header h3 { font-size: 18px; margin: 0; color: var(--verde-profundo); }
+.plan-card__precio-lista {
+  text-decoration: line-through;
+  color: #a9a094;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.plan-card__precio {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  color: var(--coral-oscuro);
+  margin: 0;
+}
+.plan-card__precio-detalle {
+  display: block;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  color: #5b6d6b;
+  font-weight: 400;
+}
+.plan-card__prestaciones {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  color: #465856;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.plan-card__prestaciones li::before { content: "✓ "; color: var(--menta); font-weight: 700; }
+
+.btn-comprar {
+  margin-top: auto;
+  background: var(--verde-profundo);
+  color: var(--blanco);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+.btn-comprar:hover { background: #0a2b29; }
+
+.sin-resultados {
+  grid-column: 1 / -1;
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 32px;
+  text-align: center;
+  color: #5b6d6b;
+}
+
+/* --- Modal "comprar" ------------------------------------------------------ */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(11, 43, 41, 0.55);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+  padding: 20px;
+}
+.modal-overlay[hidden] { display: none; }
+.modal-box {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  padding: 28px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+.modal-box h3 { color: var(--verde-profundo); margin-top: 0; }
+.modal-plan-nombre { font-weight: 700; color: var(--verde-profundo); margin-top: 12px; }
+.modal-close {
+  position: absolute; top: 14px; right: 14px;
+  background: var(--arena); border: none; border-radius: 50%;
+  width: 32px; height: 32px; font-size: 15px; cursor: pointer; color: var(--verde-texto);
+}
+
+/* --- Trust strip ---------------------------------------------------------- */
+.trust-strip {
+  display: flex; flex-wrap: wrap; gap: 28px; justify-content: center;
+  padding: 32px 24px; color: var(--verde-profundo); font-size: 14px; font-weight: 600;
+}
+.trust-strip span::before { content: "✓ "; color: var(--menta); }
+
+/* --- Footer --------------------------------------------------------------- */
+.site-footer {
+  background: var(--verde-profundo);
+  color: rgba(255,255,255,0.75);
+  padding: 32px 24px;
+  font-size: 13px;
+  text-align: center;
+}
+.site-footer a { color: var(--menta); text-decoration: none; }
+
+/* --- Página de guía de UTMs ------------------------------------------------ */
+.utm-page { padding: 48px 0 96px; }
+.utm-page h1 { color: var(--verde-profundo); font-size: 36px; }
+.utm-page .lead { color: #465856; font-size: 17px; max-width: 640px; }
+.utm-table-wrap { overflow-x: auto; margin: 20px 0 36px; }
+table.utm-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--blanco);
+  border-radius: 14px;
+  overflow: hidden;
+  font-size: 14px;
+}
+table.utm-table th, table.utm-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--borde);
+}
+table.utm-table th { background: var(--menta-suave); color: var(--verde-profundo); }
+.canal-card {
+  background: var(--blanco);
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 22px;
+  margin-bottom: 20px;
+}
+.canal-card h3 { margin-top: 0; color: var(--verde-profundo); font-size: 19px; }
+.canal-card code {
+  display: block;
+  background: var(--arena);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  overflow-x: auto;
+  margin: 10px 0;
+  color: var(--verde-texto);
+}
+.canal-card ul { margin: 8px 0 0; padding-left: 18px; font-size: 14px; color: #465856; }
+
+@media (max-width: 640px) {
+  .site-header { flex-direction: column; gap: 10px; }
+  .route-svg { display: none; }
+  .cotizador-card { padding: 20px; }
+}
