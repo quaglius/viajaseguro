@@ -15,3 +15,8 @@
   from = "/api/cotizar"
   to = "/.netlify/functions/cotizar"
   status = 200
+
+[[redirects]]
+  from = "/api/detalle_productos"
+  to = "/.netlify/functions/detalle_productos"
+  status = 200

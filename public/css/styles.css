@@ -359,7 +359,25 @@ img, svg { max-width: 100%; display: block; }
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .plan-card:hover { transform: translateY(-3px); box-shadow: var(--sombra); }
-.plan-card--destacado { border-color: var(--menta); box-shadow: 0 8px 24px rgba(55, 201, 180, 0.18); }
+
+/* La card "Recomendado" (siempre la más barata) se destaca con fondo oscuro,
+   como hace el propio widget de Cardinal. */
+.plan-card--recomendado {
+  background: linear-gradient(165deg, var(--verde-profundo) 0%, #0c2e2c 100%);
+  border-color: var(--verde-profundo);
+  color: var(--blanco);
+}
+.plan-card--recomendado .plan-card__header h3,
+.plan-card--recomendado .prestacion-row__nombre,
+.plan-card--recomendado .plan-card__precio-detalle { color: rgba(255,255,255,0.75); }
+.plan-card--recomendado .prestacion-row__valor { color: var(--blanco); }
+.plan-card--recomendado .prestacion-row { border-color: rgba(255,255,255,0.12); }
+.plan-card--recomendado .plan-card__precio { color: var(--menta); }
+.plan-card--recomendado .plan-card__precio-lista { color: rgba(255,255,255,0.5); }
+.plan-card--recomendado .btn-comprar { background: var(--menta); color: var(--verde-profundo); }
+.plan-card--recomendado .btn-comprar:hover { background: #2cb5a1; }
+.plan-card--recomendado .btn-ver-mas { color: var(--menta); }
+
 .plan-card__badge {
   position: absolute;
   top: -12px;
@@ -368,14 +386,24 @@ img, svg { max-width: 100%; display: block; }
   color: var(--verde-profundo);
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 5px 12px;
+  padding: 5px 14px;
   border-radius: 999px;
   box-shadow: 0 4px 10px rgba(55, 201, 180, 0.35);
 }
-.plan-card__header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.plan-card__header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
 .plan-card__header h3 { font-size: 18px; margin: 0; color: var(--verde-profundo); }
+.plan-card__off {
+  background: var(--coral);
+  color: var(--blanco);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.plan-card__precio-wrap { display: flex; flex-direction: column; }
 .plan-card__precio-lista {
   text-decoration: line-through;
   color: #a9a094;
@@ -395,17 +423,41 @@ img, svg { max-width: 100%; display: block; }
   color: #5b6d6b;
   font-weight: 400;
 }
+
+/* --- Filas de prestaciones: etiqueta a la izquierda, valor a la derecha,
+   igual que el widget de cotización de Cardinal --------------------------- */
 .plan-card__prestaciones {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 13px;
-  color: #465856;
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
-.plan-card__prestaciones li::before { content: "✓ "; color: var(--menta); font-weight: 700; }
+.prestacion-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--arena-oscura);
+  font-size: 13px;
+}
+.prestacion-row:last-child { border-bottom: none; }
+.prestacion-row__nombre { color: #5b6d6b; }
+.prestacion-row__valor { color: var(--verde-profundo); font-weight: 700; text-align: right; }
+.prestacion-row--no-incluido .prestacion-row__valor { color: #a9a094; font-weight: 600; }
+
+.btn-ver-mas {
+  background: none;
+  border: none;
+  color: var(--verde-profundo);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 0;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.btn-ver-mas:hover { color: var(--coral-oscuro); }
 
 .btn-comprar {
   margin-top: auto;
@@ -455,6 +507,22 @@ img, svg { max-width: 100%; display: block; }
   background: var(--arena); border: none; border-radius: 50%;
   width: 32px; height: 32px; font-size: 15px; cursor: pointer; color: var(--verde-texto);
 }
+
+.modal-box--detalle {
+  max-width: 560px;
+  text-align: left;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-box--detalle h3 { padding-right: 32px; }
+.detalle-lista {
+  overflow-y: auto;
+  margin: 4px -8px -8px;
+  padding: 0 8px 8px;
+}
+.detalle-lista .prestacion-row { font-size: 14px; }
+.detalle-cargando { color: #5b6d6b; text-align: center; padding: 24px 0; }
 
 /* --- Trust strip ---------------------------------------------------------- */
 .trust-strip {

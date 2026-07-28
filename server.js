@@ -96,6 +96,31 @@ app.post('/api/cotizar', async (req, res) => {
   }
 });
 
+// Detalle completo de coberturas de un producto (para el modal "Ver más").
+// Es catálogo casi estático — no depende de fechas ni pasajeros — por eso
+// el front lo cachea agresivamente.
+app.post('/api/detalle_productos', async (req, res) => {
+  const { productoIds } = req.body || {};
+
+  if (!Array.isArray(productoIds) || !productoIds.length) {
+    return res.status(400).json({
+      resultado: 'error',
+      mensajes: ['Falta productoIds para pedir el detalle.'],
+    });
+  }
+
+  try {
+    const { status, data } = await callCardinal('detalle_productos', {
+      productoIds: productoIds.map(Number),
+      localeId: 1,
+    });
+    res.status(status).json(data);
+  } catch (err) {
+    console.error('Error /api/detalle_productos:', err.message);
+    res.status(502).json({ resultado: 'error', mensajes: ['No se pudo contactar a Cardinal.'] });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`✔ ViajaSeguro POC corriendo en http://localhost:${PORT}`);
 });

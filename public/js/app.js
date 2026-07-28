@@ -10,6 +10,10 @@
   const modal = document.getElementById('modal-comprar');
   const modalBody = document.getElementById('modal-comprar-body');
   const modalClose = document.getElementById('modal-close');
+  const modalDetalle = document.getElementById('modal-detalle');
+  const modalDetalleClose = document.getElementById('modal-detalle-close');
+  const modalDetalleTitulo = document.getElementById('modal-detalle-titulo');
+  const modalDetalleBody = document.getElementById('modal-detalle-body');
   const fechaSalidaInput = document.getElementById('fecha-salida');
   const fechaRegresoInput = document.getElementById('fecha-regreso');
 
@@ -279,6 +283,13 @@
     return costo ? Number(costo.amount) : NaN;
   }
 
+  function pctOff(lista, final) {
+    const l = monto(lista);
+    const f = monto(final);
+    if (!l || !f || l <= f) return 0;
+    return Math.round((1 - f / l) * 100);
+  }
+
   function renderResultados(cotizacion) {
     const productos = (cotizacion.productos || []).slice().sort((a, b) => monto(a.costoFinal) - monto(b.costoFinal));
 
@@ -290,25 +301,42 @@
     }
 
     productos.forEach((producto, index) => {
-      const hayDescuento = producto.costoLista && monto(producto.costoLista) !== monto(producto.costoFinal);
+      // Precio en la moneda local del país de origen (la que de verdad le
+      // importa al usuario) con el equivalente en USD como referencia chica.
+      const costoLocal = producto.costoFinalMonedaPais || producto.costoFinal;
+      const costoLocalLista = producto.costoListaMonedaPais || producto.costoLista;
+      const descuento = pctOff(costoLocalLista, costoLocal);
+
       const card = document.createElement('article');
-      card.className = 'plan-card' + (index === 0 ? ' plan-card--destacado' : '');
+      card.className = 'plan-card' + (index === 0 ? ' plan-card--recomendado' : '');
       card.innerHTML = `
-        ${index === 0 ? '<span class="plan-card__badge">Mejor precio</span>' : ''}
+        ${index === 0 ? '<span class="plan-card__badge">Recomendado</span>' : ''}
         <div class="plan-card__header">
-          <h3>${producto.productoNombre}</h3>
-          ${hayDescuento ? `<span class="plan-card__precio-lista">${formatMoney(producto.costoLista)}</span>` : ''}
+          <h3>${producto.productoNombre.trim()}</h3>
+          ${descuento ? `<span class="plan-card__off">${descuento}% OFF</span>` : ''}
         </div>
-        <p class="plan-card__precio">${formatMoney(producto.costoFinal)}
-          <span class="plan-card__precio-detalle">total, todos los pasajeros</span>
-        </p>
+        <div class="plan-card__precio-wrap">
+          ${descuento ? `<span class="plan-card__precio-lista">Total ${formatMoney(costoLocalLista)}</span>` : ''}
+          <p class="plan-card__precio">${formatMoney(costoLocal)}
+            <span class="plan-card__precio-detalle">total · ${formatMoney(producto.costoFinal)} · todos los pasajeros</span>
+          </p>
+        </div>
         ${producto.prestaciones && producto.prestaciones.length
-          ? `<ul class="plan-card__prestaciones">
-              ${producto.prestaciones.slice(0, 4).map((p) => `<li>${p.nombre}</li>`).join('')}
-            </ul>`
+          ? `<div class="plan-card__prestaciones">
+              ${producto.prestaciones.map((p) => `
+                <div class="prestacion-row">
+                  <span class="prestacion-row__nombre">${p.nombre.trim()}</span>
+                  <span class="prestacion-row__valor">${p.valor.trim()}</span>
+                </div>
+              `).join('')}
+            </div>`
           : ''}
+        <button type="button" class="btn-ver-mas" data-producto-id="${producto.productoId}">Ver cobertura completa →</button>
         <button type="button" class="btn-comprar" data-index="${index}">Comprar este plan</button>
       `;
+      card.querySelector('.btn-ver-mas').addEventListener('click', () => {
+        abrirModalDetalle(producto);
+      });
       card.querySelector('.btn-comprar').addEventListener('click', () => {
         window.gaEcommerce.addToCart(producto, monedaIso(producto.costoFinal), index);
         abrirModalComprar(producto, index);
@@ -345,6 +373,68 @@
   });
   modal.addEventListener('click', (e) => {
     if (e.target === modal) modal.hidden = true;
+  });
+
+  // --- 7. Modal "Ver cobertura completa" — detalle_productos cacheado -------
+  // Es catálogo casi estático (no depende de fechas ni pasajeros), así que
+  // se cachea 24hs por productoId en vez de pedirlo de nuevo cada vez.
+  const DETALLE_CACHE_KEY = 'vs_detalle_cache_v1';
+  const DETALLE_CACHE_MS = 24 * 60 * 60 * 1000;
+
+  async function obtenerDetalleProducto(productoId) {
+    let cache = {};
+    try {
+      cache = JSON.parse(localStorage.getItem(DETALLE_CACHE_KEY) || '{}');
+    } catch {
+      cache = {};
+    }
+    const cached = cache[productoId];
+    if (cached && Date.now() - cached.ts < DETALLE_CACHE_MS) return cached.data;
+
+    const resp = await fetch('/api/detalle_productos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productoIds: [productoId] }),
+    });
+    const data = await resp.json();
+    const detalle = data.productos && data.productos[0];
+    if (detalle) {
+      cache[productoId] = { ts: Date.now(), data: detalle };
+      try {
+        localStorage.setItem(DETALLE_CACHE_KEY, JSON.stringify(cache));
+      } catch {
+        /* ignorar cuota excedida */
+      }
+    }
+    return detalle;
+  }
+
+  async function abrirModalDetalle(producto) {
+    modalDetalleTitulo.textContent = producto.productoNombre.trim();
+    modalDetalleBody.innerHTML = '<p class="detalle-cargando">Cargando coberturas…</p>';
+    modalDetalle.hidden = false;
+
+    try {
+      const detalle = await obtenerDetalleProducto(producto.productoId);
+      const prestaciones = (detalle?.prestaciones || []).slice().sort((a, b) => a.orden - b.orden);
+
+      modalDetalleBody.innerHTML = prestaciones.length
+        ? prestaciones.map((p) => `
+            <div class="prestacion-row${p.NoIncluido ? ' prestacion-row--no-incluido' : ''}">
+              <span class="prestacion-row__nombre">${p.nombre.trim()}</span>
+              <span class="prestacion-row__valor">${p.NoIncluido ? 'No incluido' : p.valor.trim()}</span>
+            </div>
+          `).join('')
+        : '<p>No pudimos traer el detalle completo de este plan.</p>';
+    } catch (err) {
+      modalDetalleBody.innerHTML = '<p>No pudimos traer el detalle completo de este plan. Probá de nuevo en un momento.</p>';
+    }
+  }
+  modalDetalleClose.addEventListener('click', () => {
+    modalDetalle.hidden = true;
+  });
+  modalDetalle.addEventListener('click', (e) => {
+    if (e.target === modalDetalle) modalDetalle.hidden = true;
   });
 
   actualizarViajerosUI();
