@@ -40,3 +40,13 @@
   from = "/api/comparador_dummy"
   to = "/.netlify/functions/comparador_dummy"
   status = 200
+
+[[redirects]]
+  from = "/api/config"
+  to = "/.netlify/functions/config"
+  status = 200
+
+[[redirects]]
+  from = "/api/emitir_sin_pago"
+  to = "/.netlify/functions/emitir_sin_pago"
+  status = 200

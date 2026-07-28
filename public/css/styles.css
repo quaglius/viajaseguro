@@ -663,6 +663,15 @@ img, svg { max-width: 100%; display: block; }
   margin: 0 0 12px;
 }
 .confirmacion-pago__nota { color: #5b6d6b; font-size: 13px; margin: 0 0 20px; }
+.confirmacion-pago__nota--warn {
+  background: #fdf3e4;
+  color: #8a5a12;
+  border: 1px solid #f2d9ab;
+  border-radius: 10px;
+  padding: 10px 14px;
+  text-align: left;
+}
+.confirmacion-pago .gracias-vouchers { text-align: left; }
 .confirmacion-pago .btn-primary { width: auto; padding: 14px 32px; }
 
 /* --- Trust strip ---------------------------------------------------------- */

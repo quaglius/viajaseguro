@@ -301,6 +301,38 @@ app.get('/api/completar_pago', async (req, res) => {
   }
 });
 
+// Le dice al front si Mercado Pago está configurado, para poder ofrecer
+// (o no) el atajo de emisión sin pago de acá abajo.
+app.get('/api/config', (req, res) => {
+  res.json({ resultado: 'ok', mpConfigurado: !!mpClient });
+});
+
+// Emitir sin pasar por Mercado Pago — SÓLO mientras no haya MP_ACCESS_TOKEN
+// configurado. Es un atajo para poder probar /emitir de Cardinal (que sí es
+// real y factura a la cta. cte. del agente) mientras se termina de cargar el
+// pago. En cuanto se configure MP_ACCESS_TOKEN esta ruta se desactiva sola.
+app.post('/api/emitir_sin_pago', async (req, res) => {
+  if (mpClient) {
+    return res.status(403).json({
+      resultado: 'error',
+      mensajes: ['Mercado Pago ya está configurado — la emisión tiene que pasar por el pago.'],
+    });
+  }
+
+  const { cotizacionGuid, productoSeleccionadoId, montoCotizado, observaciones, pasajeros } = req.body || {};
+  if (!cotizacionGuid || !productoSeleccionadoId || !montoCotizado || !Array.isArray(pasajeros) || !pasajeros.length) {
+    return res.status(400).json({ resultado: 'error', mensajes: ['Faltan datos para emitir.'] });
+  }
+
+  try {
+    const { status, data } = await emitirEnCardinal({ cotizacionGuid, productoSeleccionadoId, montoCotizado, observaciones, pasajeros });
+    res.status(status).json(data);
+  } catch (err) {
+    console.error('Error /api/emitir_sin_pago:', err.message);
+    res.status(502).json({ resultado: 'error', mensajes: ['No se pudo contactar a Cardinal.'] });
+  }
+});
+
 // ---------------------------------------------------------------------------
 // Comparador: datos dummy de otras aseguradoras (todavía sin integración
 // real — ver dummy_asistencia_viajero.json). Cardinal siempre sale de la API

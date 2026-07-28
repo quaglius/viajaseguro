@@ -742,7 +742,7 @@
         return;
       }
 
-      mostrarConfirmacionPago({ cotizacionGuid: data.cotizacion.guid, producto: productoFinal, pasajeros, observaciones });
+      await mostrarConfirmacionPago({ cotizacionGuid: data.cotizacion.guid, producto: productoFinal, pasajeros, observaciones });
     } catch (err) {
       errorBoxPax.textContent = 'No pudimos conectar con Cardinal para confirmar el precio. Probá de nuevo.';
       errorBoxPax.hidden = false;
@@ -752,8 +752,22 @@
     }
   }
 
-  function mostrarConfirmacionPago({ cotizacionGuid, producto, pasajeros, observaciones }) {
+  let mpConfiguradoCache = null;
+  async function mercadoPagoConfigurado() {
+    if (mpConfiguradoCache !== null) return mpConfiguradoCache;
+    try {
+      const resp = await fetch('/api/config');
+      const data = await resp.json();
+      mpConfiguradoCache = !!data.mpConfigurado;
+    } catch {
+      mpConfiguradoCache = false;
+    }
+    return mpConfiguradoCache;
+  }
+
+  async function mostrarConfirmacionPago({ cotizacionGuid, producto, pasajeros, observaciones }) {
     const costoLocal = producto.costoFinalMonedaPais || producto.costoFinal;
+    const mpListo = await mercadoPagoConfigurado();
 
     modalBody.innerHTML = `
       <div class="confirmacion-pago">
@@ -761,57 +775,141 @@
         <p class="confirmacion-pago__precio">${formatMoney(costoLocal)}
           <span class="plan-card__precio-detalle">total · ${formatMoney(producto.costoFinal)} · ${pasajeros.length} pasajero${pasajeros.length === 1 ? '' : 's'}</span>
         </p>
-        <p class="confirmacion-pago__nota">Vas a pagar en Mercado Pago y, apenas se acredite, emitimos el voucher automáticamente.</p>
-        <p id="pago-error" class="form-error" hidden></p>
-        <button type="button" id="btn-pagar" class="btn-primary">Pagar con Mercado Pago</button>
+        ${mpListo
+          ? `<p class="confirmacion-pago__nota">Vas a pagar en Mercado Pago y, apenas se acredite, emitimos el voucher automáticamente.</p>
+             <p id="pago-error" class="form-error" hidden></p>
+             <button type="button" id="btn-pagar" class="btn-primary">Pagar con Mercado Pago</button>`
+          : `<p class="confirmacion-pago__nota confirmacion-pago__nota--warn">
+               Mercado Pago todavía no está configurado en este entorno. Este botón emite el voucher
+               directo en Cardinal <strong>sin cobrar nada</strong> — es sólo para poder probar la
+               emisión real mientras se carga el pago.
+             </p>
+             <p id="pago-error" class="form-error" hidden></p>
+             <button type="button" id="btn-pagar" class="btn-primary">Emitir sin pagar (modo prueba)</button>`}
       </div>
     `;
 
-    document.getElementById('btn-pagar').addEventListener('click', async () => {
-      const btnPagar = document.getElementById('btn-pagar');
-      const pagoError = document.getElementById('pago-error');
-      pagoError.hidden = true;
-      btnPagar.disabled = true;
-      btnPagar.textContent = 'Redirigiendo a Mercado Pago…';
+    document.getElementById('btn-pagar').addEventListener('click', () => {
+      mpListo
+        ? pagarConMercadoPago({ cotizacionGuid, producto, pasajeros, observaciones, costoLocal })
+        : emitirSinPago({ cotizacionGuid, producto, pasajeros, observaciones });
+    });
+  }
 
-      window.gaEcommerce.beginCheckout(producto, monedaIso(producto.costoFinal), pasajerosContext.index);
+  async function pagarConMercadoPago({ cotizacionGuid, producto, pasajeros, observaciones, costoLocal }) {
+    const btnPagar = document.getElementById('btn-pagar');
+    const pagoError = document.getElementById('pago-error');
+    pagoError.hidden = true;
+    btnPagar.disabled = true;
+    btnPagar.textContent = 'Redirigiendo a Mercado Pago…';
 
-      try {
-        const resp = await fetch('/api/crear_pago', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            cotizacionGuid,
-            productoSeleccionadoId: producto.productoId,
-            productoNombre: producto.productoNombre.trim(),
-            // montoCotizado es el valor de control que Cardinal compara contra
-            // la cotización al emitir — usamos el mismo costoFinal (USD) que
-            // devuelve /cotizar como base, ya que es "el monto obtenido en la
-            // cotización" según la doc.
-            montoCotizado: monto(producto.costoFinal),
-            montoPagoLocal: monto(costoLocal),
-            observaciones,
-            pasajeros,
-          }),
-        });
-        const data = await resp.json();
+    window.gaEcommerce.beginCheckout(producto, monedaIso(producto.costoFinal), pasajerosContext.index);
 
-        if (data.resultado !== 'ok' || !data.initPoint) {
-          pagoError.textContent = (data.mensajes && data.mensajes.join(' ')) || 'No pudimos iniciar el pago.';
-          pagoError.hidden = false;
-          btnPagar.disabled = false;
-          btnPagar.textContent = 'Pagar con Mercado Pago';
-          return;
-        }
+    try {
+      const resp = await fetch('/api/crear_pago', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cotizacionGuid,
+          productoSeleccionadoId: producto.productoId,
+          productoNombre: producto.productoNombre.trim(),
+          // montoCotizado es el valor de control que Cardinal compara contra
+          // la cotización al emitir — usamos el mismo costoFinal (USD) que
+          // devuelve /cotizar como base, ya que es "el monto obtenido en la
+          // cotización" según la doc.
+          montoCotizado: monto(producto.costoFinal),
+          montoPagoLocal: monto(costoLocal),
+          observaciones,
+          pasajeros,
+        }),
+      });
+      const data = await resp.json();
 
-        window.location.href = data.initPoint;
-      } catch (err) {
-        pagoError.textContent = 'No pudimos conectar con Mercado Pago. Probá de nuevo.';
+      if (data.resultado !== 'ok' || !data.initPoint) {
+        pagoError.textContent = (data.mensajes && data.mensajes.join(' ')) || 'No pudimos iniciar el pago.';
         pagoError.hidden = false;
         btnPagar.disabled = false;
         btnPagar.textContent = 'Pagar con Mercado Pago';
+        return;
       }
-    });
+
+      window.location.href = data.initPoint;
+    } catch (err) {
+      pagoError.textContent = 'No pudimos conectar con Mercado Pago. Probá de nuevo.';
+      pagoError.hidden = false;
+      btnPagar.disabled = false;
+      btnPagar.textContent = 'Pagar con Mercado Pago';
+    }
+  }
+
+  // Atajo de emisión real sin pago — ver /api/emitir_sin_pago. Se desactiva
+  // solo (403) apenas se configure MP_ACCESS_TOKEN en el servidor.
+  async function emitirSinPago({ cotizacionGuid, producto, pasajeros, observaciones }) {
+    const btnPagar = document.getElementById('btn-pagar');
+    const pagoError = document.getElementById('pago-error');
+    pagoError.hidden = true;
+    btnPagar.disabled = true;
+    btnPagar.textContent = 'Emitiendo…';
+
+    try {
+      const resp = await fetch('/api/emitir_sin_pago', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cotizacionGuid,
+          productoSeleccionadoId: producto.productoId,
+          montoCotizado: monto(producto.costoFinal),
+          observaciones,
+          pasajeros,
+        }),
+      });
+      const data = await resp.json();
+
+      if (data.resultado !== 'ok') {
+        pagoError.textContent = (data.mensajes && data.mensajes.join(' ')) || 'No pudimos emitir el voucher.';
+        pagoError.hidden = false;
+        btnPagar.disabled = false;
+        btnPagar.textContent = 'Emitir sin pagar (modo prueba)';
+        return;
+      }
+
+      mostrarVoucherEmitido(data.vouchers || [], producto);
+    } catch (err) {
+      pagoError.textContent = 'No pudimos conectar con Cardinal. Probá de nuevo.';
+      pagoError.hidden = false;
+      btnPagar.disabled = false;
+      btnPagar.textContent = 'Emitir sin pagar (modo prueba)';
+    }
+  }
+
+  function mostrarVoucherEmitido(vouchers, producto) {
+    modalBody.innerHTML = `
+      <div class="confirmacion-pago">
+        <p class="confirmacion-pago__plan">¡Voucher emitido! 🎉</p>
+        <div class="gracias-vouchers">
+          ${vouchers.map((v) => `
+            <div class="voucher-row">
+              <div>
+                <strong>${v.nombre} ${v.apellido}</strong>
+                <span class="voucher-row__nro">Voucher ${v.nroVoucher}</span>
+              </div>
+              ${v.linkImprimir ? `<a href="${v.linkImprimir}" target="_blank" rel="noopener" class="btn-listo">Ver voucher →</a>` : ''}
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    const valorTotal = vouchers.reduce((acc, v) => acc + Number(v.tarifa || 0), 0);
+    if (vouchers.length) {
+      window.gaEcommerce.purchase({
+        voucherId: vouchers.map((v) => v.nroVoucher).join(','),
+        valor: valorTotal,
+        currencyCode: 'ARS',
+        productoId: producto.productoId,
+        productoNombre: producto.productoNombre.trim(),
+      });
+    }
   }
 
   modalClose.addEventListener('click', () => {
