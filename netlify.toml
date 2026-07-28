@@ -20,3 +20,18 @@
   from = "/api/detalle_productos"
   to = "/.netlify/functions/detalle_productos"
   status = 200
+
+[[redirects]]
+  from = "/api/crear_pago"
+  to = "/.netlify/functions/crear_pago"
+  status = 200
+
+[[redirects]]
+  from = "/api/pago_webhook"
+  to = "/.netlify/functions/pago_webhook"
+  status = 200
+
+[[redirects]]
+  from = "/api/completar_pago"
+  to = "/.netlify/functions/completar_pago"
+  status = 200

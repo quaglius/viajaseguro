@@ -99,29 +99,47 @@
     addToCart(producto, currencyCode, index) {
       window.track('add_to_cart', {
         currency: currencyCode,
-        value: producto.costoFinal,
+        value: montoDe(producto.costoFinal),
         items: [toGaItem(producto, currencyCode, index)],
       });
     },
 
-    // Se dispara cuando se abre el modal de "acá se emitiría el voucher".
-    // Deliberadamente NO disparamos un evento "purchase": no hay una
-    // transacción real, y contaminar el reporte de ingresos de GA4 con
-    // ventas simuladas rompe cualquier análisis futuro sobre datos reales.
+    // Se dispara al pasar a Mercado Pago — ahí sí hay intención de pago real.
     beginCheckout(producto, currencyCode, index) {
       window.track('begin_checkout', {
         currency: currencyCode,
-        value: producto.costoFinal,
+        value: montoDe(producto.costoFinal),
         items: [toGaItem(producto, currencyCode, index)],
       });
     },
+
+    // Se dispara sólo cuando Cardinal confirma la emisión real del voucher
+    // (ver gracias.html) — es una transacción de verdad, no simulada.
+    purchase({ voucherId, valor, currencyCode, productoId, productoNombre }) {
+      window.track('purchase', {
+        transaction_id: voucherId,
+        currency: currencyCode,
+        value: valor,
+        items: [{
+          item_id: String(productoId),
+          item_name: productoNombre,
+          price: valor,
+          currency: currencyCode,
+          quantity: 1,
+        }],
+      });
+    },
   };
+
+  function montoDe(costo) {
+    return costo && costo.amount !== undefined ? Number(costo.amount) : Number(costo) || 0;
+  }
 
   function toGaItem(producto, currencyCode, index) {
     return {
       item_id: String(producto.productoId),
       item_name: producto.productoNombre,
-      price: producto.costoFinal,
+      price: montoDe(producto.costoFinal),
       currency: currencyCode,
       index,
       quantity: 1,

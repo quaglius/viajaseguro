@@ -185,7 +185,8 @@ img, svg { max-width: 100%; display: block; }
   color: var(--verde-profundo);
 }
 .field select,
-.field input {
+.field input,
+.field textarea {
   border: 1.5px solid var(--borde);
   border-radius: 12px;
   padding: 12px 14px;
@@ -193,6 +194,7 @@ img, svg { max-width: 100%; display: block; }
   font-family: inherit;
   background: var(--arena);
   color: var(--verde-texto);
+  resize: vertical;
 }
 .field select {
   appearance: none;
@@ -536,6 +538,43 @@ img, svg { max-width: 100%; display: block; }
 .detalle-lista .prestacion-row { font-size: 14px; }
 .detalle-cargando { color: #5b6d6b; text-align: center; padding: 24px 0; }
 
+/* --- Form de pasajeros (dentro de modal-comprar) ------------------------- */
+.modal-comprar-subt { color: #5b6d6b; font-size: 13px; margin: -6px 0 16px; }
+#modal-comprar-body { overflow-y: auto; margin: 0 -8px -8px; padding: 0 8px 8px; }
+
+.pasajero-fieldset {
+  border: 1.5px solid var(--borde);
+  border-radius: 14px;
+  padding: 16px 18px 18px;
+  margin: 0 0 16px;
+}
+.pasajero-fieldset legend {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  color: var(--verde-profundo);
+  padding: 0 6px;
+}
+.pasajero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+.pasajero-grid .field label { font-size: 12px; }
+.pasajero-grid .field select,
+.pasajero-grid .field input { padding: 10px 12px; font-size: 14px; }
+.pasajero-grid__ancho { grid-column: 1 / -1; }
+
+.confirmacion-pago { text-align: center; padding: 4px 0 8px; }
+.confirmacion-pago__plan { font-weight: 700; color: var(--verde-profundo); margin: 0 0 4px; }
+.confirmacion-pago__precio {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  color: var(--coral-oscuro);
+  margin: 0 0 12px;
+}
+.confirmacion-pago__nota { color: #5b6d6b; font-size: 13px; margin: 0 0 20px; }
+.confirmacion-pago .btn-primary { width: auto; padding: 14px 32px; }
+
 /* --- Trust strip ---------------------------------------------------------- */
 .trust-strip {
   display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
@@ -601,6 +640,47 @@ table.utm-table th { background: var(--menta-suave); color: var(--verde-profundo
   color: var(--verde-texto);
 }
 .canal-card ul { margin: 8px 0 0; padding-left: 18px; font-size: 14px; color: #465856; }
+
+/* --- Página de retorno de Mercado Pago (gracias.html) --------------------- */
+.gracias-page { padding: 64px 0 96px; display: flex; justify-content: center; }
+.gracias-box {
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 40px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+}
+.gracias-box h1 { font-size: 24px; color: var(--verde-profundo); margin: 0 0 10px; }
+.gracias-box p { color: #5b6d6b; margin: 0; }
+.gracias-box__spinner {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 16px;
+  border: 3px solid var(--menta-suave);
+  border-top-color: var(--menta);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+.gracias-box--ok .gracias-box__spinner { display: none; }
+.gracias-box--ok h1::before { content: ''; }
+.gracias-box--error .gracias-box__spinner { border-color: #fdeceb; border-top-color: var(--coral); }
+.gracias-box--error h1 { color: var(--coral-oscuro); }
+
+#gracias-vouchers { margin-top: 20px; text-align: left; }
+.voucher-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--arena-oscura);
+}
+.voucher-row:last-child { border-bottom: none; }
+.voucher-row strong { display: block; color: var(--verde-profundo); }
+.voucher-row__nro { display: block; font-size: 12px; color: #7c8b89; }
 
 @media (max-width: 640px) {
   .site-header { flex-direction: column; gap: 10px; }

@@ -36,6 +36,7 @@
     109: { simbolo: 'CLP$', iso: 'CLP' },
   };
   let formStarted = false;
+  let parametrosCache = null; // último /api/parametros — para tiposDocumentos y paisesResidencia del form de pasajeros
 
   // --- 0. Selector de pasajeros (adultos / menores / seniors) --------------
   // La API pide una edad puntual por pasajero, no un conteo por franja. Para
@@ -120,6 +121,7 @@
   async function cargarParametros() {
     try {
       const data = await obtenerParametros();
+      parametrosCache = data;
 
       // El endpoint /parametros de Cardinal todavía no lista `destinos` para
       // este agente aunque /cotizar ya los acepta (desfasaje conocido de su
@@ -356,15 +358,225 @@
     return `${simbolo} ${monto(costo).toLocaleString('es-AR', { minimumFractionDigits: 2 })}`;
   }
 
-  // --- 6. Modal "Comprar" (sin emitir nada de verdad) -----------------------
+  // --- 6. Modal "Comprar" → form de pasajeros → repreguntar precio → pago ---
+  // Los "viajeros" elegidos en el buscador usaban una edad representativa por
+  // franja (ver EDAD_REPRESENTATIVA) sólo para poder cotizar sin pedir datos
+  // de más. Acá sí necesitamos la edad real de cada uno — así que antes de
+  // pagar volvemos a cotizar con las fechaNacimiento reales para asegurarnos
+  // de emitir por el precio correcto (Cardinal exige que la cantidad y edad
+  // de los pasajeros de /emitir coincida exactamente con la cotización).
+  let pasajerosContext = null; // { producto, index } del plan elegido en la lista de resultados
+
+  function opcionesSelect(items, valorPorDefecto) {
+    return (items || [])
+      .map((item) => `<option value="${item.id}"${String(item.id) === String(valorPorDefecto) ? ' selected' : ''}>${item.nombre}</option>`)
+      .join('');
+  }
+
+  function etiquetasPasajeros() {
+    const etiquetas = { adultos: 'Adulto', menores: 'Menor', seniors: 'Senior' };
+    return Object.entries(conteoViajeros).flatMap(([tipo, cantidad]) => Array(cantidad).fill(etiquetas[tipo]));
+  }
+
+  function renderPasajeroFieldset(i, etiquetaTipo) {
+    const tiposDocumentos = parametrosCache?.tiposDocumentos || [];
+    const paises = parametrosCache?.paisesResidencia || [];
+    return `
+      <fieldset class="pasajero-fieldset" data-pasajero="${i}">
+        <legend>Pasajero ${i + 1}${etiquetaTipo ? ` · ${etiquetaTipo}` : ''}</legend>
+        <div class="pasajero-grid">
+          <div class="field"><label>Nombre</label><input type="text" data-campo="nombre" required maxlength="100" /></div>
+          <div class="field"><label>Apellido</label><input type="text" data-campo="apellido" required maxlength="100" /></div>
+          <div class="field"><label>Email</label><input type="email" data-campo="email" required maxlength="100" /></div>
+          <div class="field"><label>Teléfono</label><input type="tel" data-campo="telefono" required maxlength="50" /></div>
+          <div class="field"><label>Tipo de documento</label><select data-campo="tipoDocumentoId" required><option value="">Seleccioná</option>${opcionesSelect(tiposDocumentos)}</select></div>
+          <div class="field"><label>N° de documento</label><input type="text" data-campo="nroDocumento" required maxlength="20" /></div>
+          <div class="field"><label>Fecha de nacimiento</label><input type="date" data-campo="fechaNacimiento" required /></div>
+          <div class="field"><label>País de residencia</label><select data-campo="paisId" required><option value="">Seleccioná</option>${opcionesSelect(paises, 6)}</select></div>
+          <div class="field pasajero-grid__ancho"><label>Domicilio</label><input type="text" data-campo="domicilio" required maxlength="250" /></div>
+          <div class="field"><label>Localidad</label><input type="text" data-campo="localidad" required maxlength="100" /></div>
+          <div class="field"><label>Emergencia — Nombre</label><input type="text" data-campo="emergenciaNombre" required maxlength="100" /></div>
+          <div class="field"><label>Emergencia — Apellido</label><input type="text" data-campo="emergenciaApellido" required maxlength="100" /></div>
+          <div class="field"><label>Emergencia — Teléfono</label><input type="tel" data-campo="emergenciaTelefono" required maxlength="50" /></div>
+        </div>
+      </fieldset>
+    `;
+  }
+
   function abrirModalComprar(producto, index) {
+    pasajerosContext = { producto, index };
+    const etiquetas = etiquetasPasajeros();
+    const n = etiquetas.length || 1;
+
     modalBody.innerHTML = `
-      <p>Acá se emitiría el voucher directo — este POC no emite pólizas reales.</p>
-      <p class="modal-plan-nombre">${producto.productoNombre} · ${formatMoney(producto.costoFinal)}</p>
+      <form id="pasajeros-form" novalidate>
+        ${Array.from({ length: n }, (_, i) => renderPasajeroFieldset(i, etiquetas[i])).join('')}
+        <div class="field">
+          <label>Observaciones (opcional)</label>
+          <textarea data-campo="observaciones" rows="2" maxlength="250"></textarea>
+        </div>
+        <p id="pasajeros-form-error" class="form-error" hidden></p>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="pasajeros-continuar">Confirmar y ver precio final</button>
+        </div>
+      </form>
     `;
     modal.hidden = false;
-    window.gaEcommerce.beginCheckout(producto, monedaIso(producto.costoFinal), index);
+    document.getElementById('pasajeros-form').addEventListener('submit', onSubmitPasajeros);
   }
+
+  function edadEn(fechaNacimiento, fechaReferencia) {
+    const nacimiento = new Date(fechaNacimiento);
+    const referencia = new Date(fechaReferencia);
+    let edad = referencia.getFullYear() - nacimiento.getFullYear();
+    const diffMes = referencia.getMonth() - nacimiento.getMonth();
+    if (diffMes < 0 || (diffMes === 0 && referencia.getDate() < nacimiento.getDate())) edad--;
+    return edad;
+  }
+
+  function leerPasajerosDelForm(formEl) {
+    return Array.from(formEl.querySelectorAll('.pasajero-fieldset')).map((fs) => {
+      const get = (campo) => fs.querySelector(`[data-campo="${campo}"]`).value.trim();
+      return {
+        nombre: get('nombre'),
+        apellido: get('apellido'),
+        email: get('email'),
+        telefono: get('telefono'),
+        tipoDocumentoId: Number(get('tipoDocumentoId')),
+        nroDocumento: get('nroDocumento'),
+        fechaNacimiento: get('fechaNacimiento'),
+        paisId: Number(get('paisId')),
+        domicilio: get('domicilio'),
+        localidad: get('localidad'),
+        emergenciaNombre: get('emergenciaNombre'),
+        emergenciaApellido: get('emergenciaApellido'),
+        emergenciaTelefono: get('emergenciaTelefono'),
+      };
+    });
+  }
+
+  async function onSubmitPasajeros(e) {
+    e.preventDefault();
+    const formEl = e.target;
+    const errorBoxPax = document.getElementById('pasajeros-form-error');
+    errorBoxPax.hidden = true;
+
+    if (!formEl.checkValidity()) {
+      formEl.reportValidity();
+      return;
+    }
+
+    const pasajeros = leerPasajerosDelForm(formEl);
+    const observaciones = formEl.querySelector('[data-campo="observaciones"]').value.trim();
+    const fechaSalida = fechaSalidaInput.value;
+    const edadesReales = pasajeros.map((p) => edadEn(p.fechaNacimiento, fechaSalida));
+
+    const continuarBtn = document.getElementById('pasajeros-continuar');
+    continuarBtn.disabled = true;
+    continuarBtn.textContent = 'Verificando precio final…';
+
+    try {
+      const resp = await fetch('/api/cotizar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          origenId: origenSelect.value,
+          destinoId: destinoSelect.value,
+          fechaSalida,
+          fechaRegreso: fechaRegresoInput.value,
+          edades: edadesReales,
+          email: pasajeros[0].email,
+        }),
+      });
+      const data = await resp.json();
+
+      if (data.resultado !== 'ok') {
+        errorBoxPax.textContent = (data.mensajes && data.mensajes.join(' ')) || 'No pudimos recalcular el precio final.';
+        errorBoxPax.hidden = false;
+        return;
+      }
+
+      const nombreBuscado = pasajerosContext.producto.productoNombre.trim();
+      const productoFinal = (data.cotizacion.productos || []).find((p) => p.productoNombre.trim() === nombreBuscado);
+
+      if (!productoFinal) {
+        errorBoxPax.textContent = 'Con las edades reales de los pasajeros este plan ya no está disponible. Cerrá esta ventana y volvé a cotizar.';
+        errorBoxPax.hidden = false;
+        return;
+      }
+
+      mostrarConfirmacionPago({ cotizacionGuid: data.cotizacion.guid, producto: productoFinal, pasajeros, observaciones });
+    } catch (err) {
+      errorBoxPax.textContent = 'No pudimos conectar con Cardinal para confirmar el precio. Probá de nuevo.';
+      errorBoxPax.hidden = false;
+    } finally {
+      continuarBtn.disabled = false;
+      continuarBtn.textContent = 'Confirmar y ver precio final';
+    }
+  }
+
+  function mostrarConfirmacionPago({ cotizacionGuid, producto, pasajeros, observaciones }) {
+    const costoLocal = producto.costoFinalMonedaPais || producto.costoFinal;
+
+    modalBody.innerHTML = `
+      <div class="confirmacion-pago">
+        <p class="confirmacion-pago__plan">${producto.productoNombre.trim()}</p>
+        <p class="confirmacion-pago__precio">${formatMoney(costoLocal)}
+          <span class="plan-card__precio-detalle">total · ${formatMoney(producto.costoFinal)} · ${pasajeros.length} pasajero${pasajeros.length === 1 ? '' : 's'}</span>
+        </p>
+        <p class="confirmacion-pago__nota">Vas a pagar en Mercado Pago y, apenas se acredite, emitimos el voucher automáticamente.</p>
+        <p id="pago-error" class="form-error" hidden></p>
+        <button type="button" id="btn-pagar" class="btn-primary">Pagar con Mercado Pago</button>
+      </div>
+    `;
+
+    document.getElementById('btn-pagar').addEventListener('click', async () => {
+      const btnPagar = document.getElementById('btn-pagar');
+      const pagoError = document.getElementById('pago-error');
+      pagoError.hidden = true;
+      btnPagar.disabled = true;
+      btnPagar.textContent = 'Redirigiendo a Mercado Pago…';
+
+      window.gaEcommerce.beginCheckout(producto, monedaIso(producto.costoFinal), pasajerosContext.index);
+
+      try {
+        const resp = await fetch('/api/crear_pago', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cotizacionGuid,
+            productoSeleccionadoId: producto.productoId,
+            productoNombre: producto.productoNombre.trim(),
+            // montoCotizado es el valor de control que Cardinal compara contra
+            // la cotización al emitir — usamos el mismo costoFinal (USD) que
+            // devuelve /cotizar como base, ya que es "el monto obtenido en la
+            // cotización" según la doc.
+            montoCotizado: monto(producto.costoFinal),
+            montoPagoLocal: monto(costoLocal),
+            observaciones,
+            pasajeros,
+          }),
+        });
+        const data = await resp.json();
+
+        if (data.resultado !== 'ok' || !data.initPoint) {
+          pagoError.textContent = (data.mensajes && data.mensajes.join(' ')) || 'No pudimos iniciar el pago.';
+          pagoError.hidden = false;
+          btnPagar.disabled = false;
+          btnPagar.textContent = 'Pagar con Mercado Pago';
+          return;
+        }
+
+        window.location.href = data.initPoint;
+      } catch (err) {
+        pagoError.textContent = 'No pudimos conectar con Mercado Pago. Probá de nuevo.';
+        pagoError.hidden = false;
+        btnPagar.disabled = false;
+        btnPagar.textContent = 'Pagar con Mercado Pago';
+      }
+    });
+  }
+
   modalClose.addEventListener('click', () => {
     modal.hidden = true;
   });
