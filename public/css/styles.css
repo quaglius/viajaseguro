@@ -353,7 +353,96 @@ img, svg { max-width: 100%; display: block; }
   color: var(--verde-profundo);
   margin-bottom: 2px;
 }
-#resultados-meta { color: #5b6d6b; margin: 0 0 28px; font-size: 14px; }
+#resultados-meta { color: #5b6d6b; margin: 0 0 20px; font-size: 14px; }
+
+/* --- Barra de filtros y orden -------------------------------------------- */
+.filtros-bar {
+  background: var(--blanco);
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.filtros-empresas { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip-empresa {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--arena);
+  border: 1.5px solid var(--borde);
+  color: #7c8b89;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.15s ease, border-color 0.15s ease;
+}
+.chip-empresa--activo { opacity: 1; border-color: var(--menta); color: var(--verde-profundo); background: var(--menta-suave); }
+.chip-empresa__logo { width: 16px; height: 16px; border-radius: 3px; }
+
+.filtros-controles {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--arena-oscura);
+}
+.filtro-campo { display: flex; flex-direction: column; gap: 4px; min-width: 140px; }
+.filtro-campo label { font-size: 12px; font-weight: 700; color: var(--verde-profundo); }
+.filtro-campo select,
+.filtro-campo input {
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-family: inherit;
+  background: var(--arena);
+  color: var(--verde-texto);
+}
+.filtros-limpiar {
+  background: none;
+  border: none;
+  color: var(--coral-oscuro);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 9px 0;
+}
+
+/* --- Identidad de empresa en cada card ------------------------------------ */
+.plan-card__empresa {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7c8b89;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.plan-card__empresa-logo { width: 18px; height: 18px; border-radius: 4px; }
+.plan-card__proximamente {
+  margin-left: auto;
+  background: var(--arena-oscura);
+  color: #7c8b89;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 10px;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.btn-comprar--proximamente { background: var(--arena-oscura); color: #a9a094; cursor: not-allowed; }
+.btn-comprar--proximamente:hover { background: var(--arena-oscura); }
 
 #resultados-lista {
   display: grid;
@@ -391,6 +480,7 @@ img, svg { max-width: 100%; display: block; }
 .plan-card--recomendado .btn-comprar { background: var(--menta); color: var(--verde-profundo); }
 .plan-card--recomendado .btn-comprar:hover { background: #2cb5a1; }
 .plan-card--recomendado .btn-ver-mas { color: var(--menta); }
+.plan-card--recomendado .plan-card__empresa { color: rgba(255,255,255,0.6); }
 
 .plan-card__badge {
   position: absolute;

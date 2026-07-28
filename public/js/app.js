@@ -17,6 +17,13 @@
   const fechaSalidaInput = document.getElementById('fecha-salida');
   const fechaRegresoInput = document.getElementById('fecha-regreso');
 
+  const filtrosEmpresasBox = document.getElementById('filtros-empresas');
+  const filtroCoberturaSelect = document.getElementById('filtro-cobertura');
+  const filtroPrecioDesdeInput = document.getElementById('filtro-precio-desde');
+  const filtroPrecioHastaInput = document.getElementById('filtro-precio-hasta');
+  const ordenSelect = document.getElementById('orden-resultados');
+  const filtrosLimpiarBtn = document.getElementById('filtros-limpiar');
+
   const viajerosTrigger = document.getElementById('viajeros-trigger');
   const viajerosTriggerText = document.getElementById('viajeros-trigger-text');
   const viajerosPanel = document.getElementById('viajeros-panel');
@@ -37,6 +44,54 @@
   };
   let formStarted = false;
   let parametrosCache = null; // último /api/parametros — para tiposDocumentos y paisesResidencia del form de pasajeros
+
+  // --- Comparador multi-empresa ---------------------------------------------
+  // Cardinal siempre sale de la API real (/api/cotizar). Las demás todavía no
+  // tienen integración — sus precios salen de dummy_asistencia_viajero.json,
+  // servido por /api/comparador_dummy, y son de referencia hasta que se
+  // sumen APIs reales. El orden acá define el orden por defecto ("relevancia").
+  const ORDEN_EMPRESAS = ['cardinal', 'assistcard', 'coris', 'universal', 'pax', 'europassistance'];
+  const EMPRESAS = {
+    cardinal: { nombre: 'Cardinal Assistance', logo: logoDe('cardinalassistance.com') },
+    assistcard: { nombre: 'Assist Card', logo: logoDe('assistcard.com') },
+    coris: { nombre: 'Coris Asistencia al Viajero', logo: logoDe('coris.com.ar') },
+    universal: { nombre: 'Universal Assistance', logo: logoDe('universal-assistance.com') },
+    pax: { nombre: 'Pax Assistance', logo: logoDe('paxassistance.com') },
+    europassistance: { nombre: 'Europ Assistance', logo: logoDe('europ-assistance.com.ar') },
+  };
+  function logoDe(dominio) {
+    return `https://www.google.com/s2/favicons?domain=${dominio}&sz=64`;
+  }
+
+  let comparadorDummyCache = null;
+  async function obtenerComparadorDummy() {
+    if (comparadorDummyCache) return comparadorDummyCache;
+    try {
+      const resp = await fetch('/api/comparador_dummy');
+      const data = await resp.json();
+      comparadorDummyCache = data.empresas || {};
+    } catch {
+      comparadorDummyCache = {};
+    }
+    return comparadorDummyCache;
+  }
+
+  let listaComparadorCompleta = []; // sin filtrar/ordenar
+  const filtros = { empresasExcluidas: new Set(), coberturaMin: null, precioDesde: null, precioHasta: null, orden: 'relevancia' };
+
+  function extraerCobertura(prestaciones) {
+    if (!prestaciones || !prestaciones.length) return null;
+    const nombresCobertura = /tope m.ximo global|asistencia m.dica por accidente|^asistencia m.dica por enfermedad$/i;
+    let max = null;
+    prestaciones.forEach((p) => {
+      if (!nombresCobertura.test(p.nombre.trim())) return;
+      const match = String(p.valor).match(/[\d.]+/);
+      if (!match) return;
+      const n = Number(match[0].replace(/\./g, ''));
+      if (!Number.isNaN(n) && (max === null || n > max)) max = n;
+    });
+    return max;
+  }
 
   // --- 0. Selector de pasajeros (adultos / menores / seniors) --------------
   // La API pide una edad puntual por pasajero, no un conteo por franja. Para
@@ -256,7 +311,7 @@
         return;
       }
 
-      renderResultados(data.cotizacion);
+      await renderResultados(data.cotizacion);
     } catch (err) {
       showError('No pudimos conectar con Cardinal. Intentá de nuevo en unos minutos.');
     } finally {
@@ -289,40 +344,148 @@
     return Math.round((1 - f / l) * 100);
   }
 
-  function renderResultados(cotizacion) {
-    const productos = (cotizacion.productos || []).slice().sort((a, b) => monto(a.costoFinal) - monto(b.costoFinal));
+  async function renderResultados(cotizacion) {
+    const productosCardinal = (cotizacion.productos || []).map((producto) => ({
+      empresaId: 'cardinal',
+      esReal: true,
+      productoId: producto.productoId,
+      productoNombre: producto.productoNombre.trim(),
+      costoLocal: producto.costoFinalMonedaPais || producto.costoFinal,
+      costoLocalLista: producto.costoListaMonedaPais || producto.costoLista,
+      costoFinal: producto.costoFinal,
+      prestaciones: producto.prestaciones || [],
+      raw: producto,
+    }));
+
+    const otrasEmpresas = await obtenerComparadorDummy();
+    const productosOtros = Object.entries(otrasEmpresas).flatMap(([empresaId, empresa]) =>
+      (empresa.cotizar?.cotizacion?.productos || []).map((producto) => ({
+        empresaId,
+        esReal: false,
+        productoId: producto.productoId,
+        productoNombre: producto.productoNombre.trim(),
+        costoLocal: producto.costoFinal,
+        costoLocalLista: producto.costoLista,
+        costoFinal: producto.costoFinal,
+        prestaciones: producto.prestaciones || [],
+        raw: producto,
+      }))
+    );
+
+    listaComparadorCompleta = [...productosCardinal, ...productosOtros].map((item) => ({
+      ...item,
+      cobertura: extraerCobertura(item.prestaciones),
+      descuento: pctOff(item.costoLocalLista, item.costoLocal),
+    }));
+
+    filtros.empresasExcluidas = new Set();
+    filtroCoberturaSelect.value = '';
+    filtroPrecioDesdeInput.value = '';
+    filtroPrecioHastaInput.value = '';
+    ordenSelect.value = 'relevancia';
+    filtros.coberturaMin = null;
+    filtros.precioDesde = null;
+    filtros.precioHasta = null;
+    filtros.orden = 'relevancia';
+
+    renderFiltrosEmpresas();
+    renderizarListaFiltrada();
+
+    resultsSection.hidden = false;
+    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderFiltrosEmpresas() {
+    const empresasPresentes = [...new Set(listaComparadorCompleta.map((i) => i.empresaId))]
+      .sort((a, b) => ORDEN_EMPRESAS.indexOf(a) - ORDEN_EMPRESAS.indexOf(b));
+
+    filtrosEmpresasBox.innerHTML = empresasPresentes.map((id) => {
+      const empresa = EMPRESAS[id] || { nombre: id, logo: '' };
+      const activo = !filtros.empresasExcluidas.has(id);
+      return `
+        <button type="button" class="chip-empresa${activo ? ' chip-empresa--activo' : ''}" data-empresa="${id}">
+          <img src="${empresa.logo}" alt="" class="chip-empresa__logo" onerror="this.remove()" />
+          ${empresa.nombre}
+        </button>
+      `;
+    }).join('');
+  }
+
+  function aplicarFiltrosYOrden(lista) {
+    let resultado = lista.filter((item) => {
+      if (filtros.empresasExcluidas.has(item.empresaId)) return false;
+      if (filtros.coberturaMin && (!item.cobertura || item.cobertura < filtros.coberturaMin)) return false;
+      const precio = monto(item.costoLocal);
+      if (filtros.precioDesde !== null && precio < filtros.precioDesde) return false;
+      if (filtros.precioHasta !== null && precio > filtros.precioHasta) return false;
+      return true;
+    });
+
+    switch (filtros.orden) {
+      case 'precio_asc':
+        resultado.sort((a, b) => monto(a.costoLocal) - monto(b.costoLocal));
+        break;
+      case 'precio_desc':
+        resultado.sort((a, b) => monto(b.costoLocal) - monto(a.costoLocal));
+        break;
+      case 'bonificacion':
+        resultado.sort((a, b) => b.descuento - a.descuento);
+        break;
+      default: // relevancia: Cardinal siempre primero, adentro de cada empresa el más barato primero
+        resultado.sort((a, b) => {
+          const ia = ORDEN_EMPRESAS.indexOf(a.empresaId);
+          const ib = ORDEN_EMPRESAS.indexOf(b.empresaId);
+          if (ia !== ib) return ia - ib;
+          return monto(a.costoLocal) - monto(b.costoLocal);
+        });
+    }
+    return resultado;
+  }
+
+  function productoMasBaratoDeCardinal() {
+    const cardinalItems = listaComparadorCompleta.filter((i) => i.empresaId === 'cardinal');
+    if (!cardinalItems.length) return null;
+    return cardinalItems.reduce((min, i) => (monto(i.costoLocal) < monto(min.costoLocal) ? i : min));
+  }
+
+  function renderizarListaFiltrada() {
+    const lista = aplicarFiltrosYOrden(listaComparadorCompleta);
+    const recomendado = productoMasBaratoDeCardinal();
 
     resultsList.innerHTML = '';
-    resultsMeta.textContent = `${productos.length} plan${productos.length === 1 ? '' : 'es'} disponible${productos.length === 1 ? '' : 's'}`;
+    resultsMeta.textContent = `${lista.length} plan${lista.length === 1 ? '' : 'es'} disponible${lista.length === 1 ? '' : 's'}`;
 
-    if (!productos.length) {
-      resultsList.innerHTML = '<p class="sin-resultados">No encontramos planes para esta combinación de datos. Probá ajustando el destino o las fechas.</p>';
+    if (!lista.length) {
+      resultsList.innerHTML = '<p class="sin-resultados">Ningún plan cumple estos filtros. Probá ajustándolos.</p>';
+      return;
     }
 
-    productos.forEach((producto, index) => {
-      // Precio en la moneda local del país de origen (la que de verdad le
-      // importa al usuario) con el equivalente en USD como referencia chica.
-      const costoLocal = producto.costoFinalMonedaPais || producto.costoFinal;
-      const costoLocalLista = producto.costoListaMonedaPais || producto.costoLista;
-      const descuento = pctOff(costoLocalLista, costoLocal);
+    lista.forEach((item, index) => {
+      const empresa = EMPRESAS[item.empresaId] || { nombre: item.empresaId, logo: '' };
+      const esRecomendado = recomendado && item.empresaId === recomendado.empresaId && item.productoId === recomendado.productoId;
 
       const card = document.createElement('article');
-      card.className = 'plan-card' + (index === 0 ? ' plan-card--recomendado' : '');
+      card.className = 'plan-card' + (esRecomendado ? ' plan-card--recomendado' : '');
       card.innerHTML = `
-        ${index === 0 ? '<span class="plan-card__badge">Recomendado</span>' : ''}
+        ${esRecomendado ? '<span class="plan-card__badge">Recomendado</span>' : ''}
+        <div class="plan-card__empresa">
+          <img src="${empresa.logo}" alt="" class="plan-card__empresa-logo" onerror="this.remove()" />
+          <span>${empresa.nombre}</span>
+          ${!item.esReal ? '<span class="plan-card__proximamente">Próximamente</span>' : ''}
+        </div>
         <div class="plan-card__header">
-          <h3>${producto.productoNombre.trim()}</h3>
-          ${descuento ? `<span class="plan-card__off">${descuento}% OFF</span>` : ''}
+          <h3>${item.productoNombre}</h3>
+          ${item.descuento ? `<span class="plan-card__off">${item.descuento}% OFF</span>` : ''}
         </div>
         <div class="plan-card__precio-wrap">
-          ${descuento ? `<span class="plan-card__precio-lista">Total ${formatMoney(costoLocalLista)}</span>` : ''}
-          <p class="plan-card__precio">${formatMoney(costoLocal)}
-            <span class="plan-card__precio-detalle">total · ${formatMoney(producto.costoFinal)} · todos los pasajeros</span>
+          ${item.descuento ? `<span class="plan-card__precio-lista">Total ${formatMoney(item.costoLocalLista)}</span>` : ''}
+          <p class="plan-card__precio">${formatMoney(item.costoLocal)}
+            <span class="plan-card__precio-detalle">total · ${formatMoney(item.costoFinal)} · todos los pasajeros</span>
           </p>
         </div>
-        ${producto.prestaciones && producto.prestaciones.length
+        ${item.prestaciones.length
           ? `<div class="plan-card__prestaciones">
-              ${producto.prestaciones.map((p) => `
+              ${item.prestaciones.slice(0, 7).map((p) => `
                 <div class="prestacion-row">
                   <span class="prestacion-row__nombre">${p.nombre.trim()}</span>
                   <span class="prestacion-row__valor">${p.valor.trim()}</span>
@@ -330,24 +493,65 @@
               `).join('')}
             </div>`
           : ''}
-        <button type="button" class="btn-ver-mas" data-producto-id="${producto.productoId}">Ver cobertura completa →</button>
-        <button type="button" class="btn-comprar" data-index="${index}">Comprar este plan</button>
+        <button type="button" class="btn-ver-mas">Ver cobertura completa →</button>
+        ${item.esReal
+          ? `<button type="button" class="btn-comprar">Comprar este plan</button>`
+          : `<button type="button" class="btn-comprar btn-comprar--proximamente" disabled>Próximamente disponible</button>`}
       `;
       card.querySelector('.btn-ver-mas').addEventListener('click', () => {
-        abrirModalDetalle(producto);
+        abrirModalDetalle(item);
       });
-      card.querySelector('.btn-comprar').addEventListener('click', () => {
-        window.gaEcommerce.addToCart(producto, monedaIso(producto.costoFinal), index);
-        abrirModalComprar(producto, index);
-      });
+      if (item.esReal) {
+        card.querySelector('.btn-comprar').addEventListener('click', () => {
+          window.gaEcommerce.addToCart(item.raw, monedaIso(item.costoFinal), index);
+          abrirModalComprar(item.raw, index);
+        });
+      }
       resultsList.appendChild(card);
     });
 
-    resultsSection.hidden = false;
-    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-    if (productos.length) window.gaEcommerce.viewItemList(productos, monedaIso(productos[0].costoFinal));
+    const productosGa = lista.filter((i) => i.esReal).map((i) => i.raw);
+    if (productosGa.length) window.gaEcommerce.viewItemList(productosGa, monedaIso(productosGa[0].costoFinal));
   }
+
+  filtrosEmpresasBox.addEventListener('click', (e) => {
+    const chip = e.target.closest('.chip-empresa');
+    if (!chip) return;
+    const id = chip.dataset.empresa;
+    filtros.empresasExcluidas.has(id) ? filtros.empresasExcluidas.delete(id) : filtros.empresasExcluidas.add(id);
+    renderFiltrosEmpresas();
+    renderizarListaFiltrada();
+  });
+
+  filtroCoberturaSelect.addEventListener('change', () => {
+    filtros.coberturaMin = filtroCoberturaSelect.value ? Number(filtroCoberturaSelect.value) : null;
+    renderizarListaFiltrada();
+  });
+  filtroPrecioDesdeInput.addEventListener('input', () => {
+    filtros.precioDesde = filtroPrecioDesdeInput.value !== '' ? Number(filtroPrecioDesdeInput.value) : null;
+    renderizarListaFiltrada();
+  });
+  filtroPrecioHastaInput.addEventListener('input', () => {
+    filtros.precioHasta = filtroPrecioHastaInput.value !== '' ? Number(filtroPrecioHastaInput.value) : null;
+    renderizarListaFiltrada();
+  });
+  ordenSelect.addEventListener('change', () => {
+    filtros.orden = ordenSelect.value;
+    renderizarListaFiltrada();
+  });
+  filtrosLimpiarBtn.addEventListener('click', () => {
+    filtros.empresasExcluidas = new Set();
+    filtros.coberturaMin = null;
+    filtros.precioDesde = null;
+    filtros.precioHasta = null;
+    filtros.orden = 'relevancia';
+    filtroCoberturaSelect.value = '';
+    filtroPrecioDesdeInput.value = '';
+    filtroPrecioHastaInput.value = '';
+    ordenSelect.value = 'relevancia';
+    renderFiltrosEmpresas();
+    renderizarListaFiltrada();
+  });
 
   function monedaIso(costo) {
     return (costo && MONEDAS[costo.currency]?.iso) || 'USD';
@@ -651,14 +855,18 @@
     return detalle;
   }
 
-  async function abrirModalDetalle(producto) {
-    modalDetalleTitulo.textContent = producto.productoNombre.trim();
+  async function abrirModalDetalle(item) {
+    modalDetalleTitulo.textContent = item.productoNombre;
     modalDetalleBody.innerHTML = '<p class="detalle-cargando">Cargando coberturas…</p>';
     modalDetalle.hidden = false;
 
     try {
-      const detalle = await obtenerDetalleProducto(producto.productoId);
-      const prestaciones = (detalle?.prestaciones || []).slice().sort((a, b) => a.orden - b.orden);
+      // Cardinal: el detalle completo (~70 prestaciones) sale de un endpoint
+      // aparte, cacheado. Las demás empresas ya traen su lista completa en el
+      // JSON dummy, no hace falta pedir nada más.
+      const prestaciones = item.esReal
+        ? ((await obtenerDetalleProducto(item.raw.productoId))?.prestaciones || []).slice().sort((a, b) => a.orden - b.orden)
+        : item.prestaciones.slice().sort((a, b) => a.orden - b.orden);
 
       modalDetalleBody.innerHTML = prestaciones.length
         ? prestaciones.map((p) => `

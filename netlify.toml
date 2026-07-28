@@ -35,3 +35,8 @@
   from = "/api/completar_pago"
   to = "/.netlify/functions/completar_pago"
   status = 200
+
+[[redirects]]
+  from = "/api/comparador_dummy"
+  to = "/.netlify/functions/comparador_dummy"
+  status = 200

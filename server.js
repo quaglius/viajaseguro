@@ -301,6 +301,28 @@ app.get('/api/completar_pago', async (req, res) => {
   }
 });
 
+// ---------------------------------------------------------------------------
+// Comparador: datos dummy de otras aseguradoras (todavía sin integración
+// real — ver dummy_asistencia_viajero.json). Cardinal siempre sale de la API
+// real vía /api/cotizar; esto sólo cubre "las otras" para poder armar la
+// experiencia de comparación mientras se suman integraciones de verdad.
+// ---------------------------------------------------------------------------
+let dummyComparadorCache = null;
+app.get('/api/comparador_dummy', (req, res) => {
+  try {
+    if (!dummyComparadorCache) {
+      const raw = fs.readFileSync(path.join(__dirname, 'dummy_asistencia_viajero.json'), 'utf8');
+      const data = JSON.parse(raw);
+      const { cardinal, ...otras } = data.empresas; // cardinal usa la API real, no este archivo
+      dummyComparadorCache = otras;
+    }
+    res.json({ resultado: 'ok', empresas: dummyComparadorCache });
+  } catch (err) {
+    console.error('Error /api/comparador_dummy:', err.message);
+    res.status(500).json({ resultado: 'error', mensajes: ['No se pudo leer la data del comparador.'] });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`✔ ViajaSeguro POC corriendo en http://localhost:${PORT}`);
 });

@@ -137,11 +137,47 @@
 <section id="resultados" class="container" hidden>
   <h2>Tus planes disponibles</h2>
   <p id="resultados-meta"></p>
+
+  <div id="filtros-bar" class="filtros-bar">
+    <div id="filtros-empresas" class="filtros-empresas"></div>
+
+    <div class="filtros-controles">
+      <div class="filtro-campo">
+        <label for="filtro-cobertura">Cobertura mínima</label>
+        <select id="filtro-cobertura">
+          <option value="">Cualquiera</option>
+          <option value="30000">USD 30.000+</option>
+          <option value="60000">USD 60.000+</option>
+          <option value="100000">USD 100.000+</option>
+          <option value="150000">USD 150.000+</option>
+        </select>
+      </div>
+      <div class="filtro-campo">
+        <label for="filtro-precio-desde">Precio desde</label>
+        <input type="number" id="filtro-precio-desde" min="0" placeholder="$ 0" />
+      </div>
+      <div class="filtro-campo">
+        <label for="filtro-precio-hasta">Precio hasta</label>
+        <input type="number" id="filtro-precio-hasta" min="0" placeholder="Sin tope" />
+      </div>
+      <div class="filtro-campo">
+        <label for="orden-resultados">Ordenar por</label>
+        <select id="orden-resultados">
+          <option value="relevancia">Más relevantes</option>
+          <option value="precio_asc">Precio: menor a mayor</option>
+          <option value="precio_desc">Precio: mayor a menor</option>
+          <option value="bonificacion">Mayor bonificación</option>
+        </select>
+      </div>
+      <button type="button" id="filtros-limpiar" class="filtros-limpiar">Limpiar filtros</button>
+    </div>
+  </div>
+
   <div id="resultados-lista"></div>
 </section>
 
 <footer class="site-footer">
-  <p>ViajaSeguro — proof of concept. Integra la API real de Cardinal Assistance. No emite pólizas.</p>
+  <p>ViajaSeguro — comparador de asistencia al viajero. Integra la API real de Cardinal Assistance y el pago real de Mercado Pago.</p>
   <p><a href="/utm-guia.html">Cómo armar tus links con UTM →</a></p>
 </footer>
 

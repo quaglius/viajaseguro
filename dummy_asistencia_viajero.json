@@ -1,0 +1,5379 @@
+{
+  "meta": {
+    "descripcion": "Dummy data para comparador ViajaSeguro. Mismo formato que la API real de Cardinal Assistance (Evoucher 2 Webservice v1.2): ver 'cotizar' (equivalente a POST /cotizar) y 'detalle_productos' (equivalente a POST /detalle_productos).",
+    "formatoBasadoEn": "https://evoucher.cardinalassistance.com/docs/doc.html",
+    "escenarioDeReferencia": {
+      "origen": "Argentina",
+      "destino": "Europa",
+      "fechaSalida": "2026-08-15",
+      "fechaRegreso": "2026-08-30",
+      "edades": [
+        35
+      ]
+    },
+    "advertencia": "TODOS los valores marcados con _esDummy=true son inventados a fines de maquetado/desarrollo y NO deben mostrarse al usuario final como precio real. El bloque 'coris' tiene _esDummy=false porque son precios reales recolectados manualmente el 2026-07-27 (sujetos a cambio). 'cardinal' usa _esDummy=true aquí a propósito, porque tu integración real ya trae los productos verdaderos vía API — este archivo es solo para tener el mismo shape en todos.",
+    "monedas_ejemplo": {
+      "1": "ARS",
+      "32": "USD"
+    }
+  },
+  "empresas": {
+    "cardinal": {
+      "nombreEmpresa": "Cardinal Assistance",
+      "tieneApiOficial": true,
+      "estadoIntegracion": "Integración real en producción (Evoucher 2 Webservice)",
+      "docsUrl": "https://evoucher.cardinalassistance.com/docs/doc.html",
+      "cotizar": {
+        "resultado": "ok",
+        "agenteEmisor": "ViajaSeguro",
+        "cotizacion": {
+          "parametros": {
+            "usuarioId": 1,
+            "origenId": 1,
+            "destinoId": 1004,
+            "fechaSalida": "2026-08-15",
+            "fechaRegreso": "2026-08-30",
+            "edades": [
+              35
+            ],
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "email": "cotizaciones@viajaseguro.com.ar",
+            "localeId": 1
+          },
+          "productos": [
+            {
+              "productoId": 101,
+              "productoNombre": "Cardinal Full 30",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 30.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 30.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 5.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 500",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "45000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "45000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "45000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "45000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 102,
+              "productoNombre": "Cardinal Full 60",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 10.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 750",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "62000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "62000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "62000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "62000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 103,
+              "productoNombre": "Cardinal Full 150",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 15.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "89000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "89000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "89000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "89000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            }
+          ],
+          "guid": "a00bfb4430424d34a0282b238f24cd04",
+          "fecha": "2026-07-28T01:10:48Z"
+        },
+        "_esDummy": true
+      },
+      "detalle_productos": {
+        "resultado": "ok",
+        "productos": [
+          {
+            "productoId": 101,
+            "productoNombre": "Cardinal Full 30",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 30.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 30.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 5.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 500",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 102,
+            "productoNombre": "Cardinal Full 60",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 10.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 750",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 103,
+            "productoNombre": "Cardinal Full 150",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 15.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "assistcard": {
+      "nombreEmpresa": "Assist Card",
+      "tieneApiOficial": true,
+      "estadoIntegracion": "API REST oficial documentada (sandbox.assistcard.com / api.assistcard.com), no integrada aún — requiere alta como agente/punto emisor",
+      "docsUrl": "https://developers.assistcard.com/",
+      "cotizar": {
+        "resultado": "ok",
+        "agenteEmisor": "ViajaSeguro",
+        "cotizacion": {
+          "parametros": {
+            "usuarioId": 1,
+            "origenId": 1,
+            "destinoId": 1004,
+            "fechaSalida": "2026-08-15",
+            "fechaRegreso": "2026-08-30",
+            "edades": [
+              35
+            ],
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "email": "cotizaciones@viajaseguro.com.ar",
+            "localeId": 1
+          },
+          "productos": [
+            {
+              "productoId": 201,
+              "productoNombre": "AC 60",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 8.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 700",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "58000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "58000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "58000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "58000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 202,
+              "productoNombre": "AC 150",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 15.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 900",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "79000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "79000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "79000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "79000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 203,
+              "productoNombre": "AC 250",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 250.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 250.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 20.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "98000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "98000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "98000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "98000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 204,
+              "productoNombre": "AC 1M",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 1.000.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 1.000.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 30.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 2.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "145000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "145000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "145000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "145000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            }
+          ],
+          "guid": "bc9c4ee2638749ef99b42a8b99897639",
+          "fecha": "2026-07-28T01:10:48Z"
+        },
+        "_esDummy": true
+      },
+      "detalle_productos": {
+        "resultado": "ok",
+        "productos": [
+          {
+            "productoId": 201,
+            "productoNombre": "AC 60",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 8.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 700",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 202,
+            "productoNombre": "AC 150",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 15.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 900",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 203,
+            "productoNombre": "AC 250",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 250.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 250.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 20.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 204,
+            "productoNombre": "AC 1M",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 1.000.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 1.000.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 30.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 2.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "coris": {
+      "nombreEmpresa": "Coris Asistencia al Viajero",
+      "tieneApiOficial": false,
+      "estadoIntegracion": "Sin API pública. Cotizador web muestra precios reales sin login, pero está protegido por Cloudflare anti-bot",
+      "notas": "Los 4 productos de este bloque son el dato REAL recolectado manualmente el 2026-07-27 (Europa, viaje único, 15 días, 35 años, con 50% de descuento promocional vigente a esa fecha). El resto de las prestaciones detalladas es aproximado.",
+      "cotizar": {
+        "resultado": "ok",
+        "agenteEmisor": "ViajaSeguro",
+        "cotizacion": {
+          "parametros": {
+            "usuarioId": 1,
+            "origenId": 1,
+            "destinoId": 1004,
+            "fechaSalida": "2026-08-15",
+            "fechaRegreso": "2026-08-30",
+            "edades": [
+              35
+            ],
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "email": "cotizaciones@viajaseguro.com.ar",
+            "localeId": 1
+          },
+          "productos": [
+            {
+              "productoId": 301,
+              "productoNombre": "Inter Global Web",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 10.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 750",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "375798.58",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "187899.29",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "375798.58",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "187899.29",
+                "currency": 1,
+                "scale": 2
+              },
+              "promocionAplicada": "50% DE DESCUENTO"
+            },
+            {
+              "productoId": 302,
+              "productoNombre": "Global Web",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 100.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 100.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 18.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "446880.50",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "223440.25",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "446880.50",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "223440.25",
+                "currency": 1,
+                "scale": 2
+              },
+              "promocionAplicada": "50% DE DESCUENTO"
+            },
+            {
+              "productoId": 303,
+              "productoNombre": "Global Plus Web",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 20.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "481867.92",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "240933.96",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "481867.92",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "240933.96",
+                "currency": 1,
+                "scale": 2
+              },
+              "promocionAplicada": "50% DE DESCUENTO"
+            },
+            {
+              "productoId": 304,
+              "productoNombre": "Discover Web",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 200.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 200.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 25.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.500",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "524685.58",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "262342.79",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "524685.58",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "262342.79",
+                "currency": 1,
+                "scale": 2
+              },
+              "promocionAplicada": "50% DE DESCUENTO"
+            }
+          ],
+          "guid": "290a919f94814793ba0cfa34cbd81fd5",
+          "fecha": "2026-07-28T01:10:48Z"
+        },
+        "_esDummy": false
+      },
+      "detalle_productos": {
+        "resultado": "ok",
+        "productos": [
+          {
+            "productoId": 301,
+            "productoNombre": "Inter Global Web",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 10.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 750",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 302,
+            "productoNombre": "Global Web",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 100.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 100.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 18.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 303,
+            "productoNombre": "Global Plus Web",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 20.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 304,
+            "productoNombre": "Discover Web",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 200.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 200.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 25.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.500",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "universal": {
+      "nombreEmpresa": "Universal Assistance",
+      "tieneApiOficial": false,
+      "estadoIntegracion": "Sin API pública. Cotizador web NO muestra precio sin antes pedir nombre y WhatsApp/email (lead-gated)",
+      "cotizar": {
+        "resultado": "ok",
+        "agenteEmisor": "ViajaSeguro",
+        "cotizacion": {
+          "parametros": {
+            "usuarioId": 1,
+            "origenId": 1,
+            "destinoId": 1004,
+            "fechaSalida": "2026-08-15",
+            "fechaRegreso": "2026-08-30",
+            "edades": [
+              35
+            ],
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "email": "cotizaciones@viajaseguro.com.ar",
+            "localeId": 1
+          },
+          "productos": [
+            {
+              "productoId": 401,
+              "productoNombre": "Universal Standard",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 8.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 700",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "70000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "70000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "70000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "70000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 402,
+              "productoNombre": "Universal Superior",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 15.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "95000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "95000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "95000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "95000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 403,
+              "productoNombre": "Universal Premium",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 300.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 300.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 25.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.500",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "130000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "130000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "130000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "130000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            }
+          ],
+          "guid": "56f6a830deb0436f810b137281c9fc3f",
+          "fecha": "2026-07-28T01:10:48Z"
+        },
+        "_esDummy": true
+      },
+      "detalle_productos": {
+        "resultado": "ok",
+        "productos": [
+          {
+            "productoId": 401,
+            "productoNombre": "Universal Standard",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 8.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 700",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 402,
+            "productoNombre": "Universal Superior",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 15.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 403,
+            "productoNombre": "Universal Premium",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 300.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 300.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 25.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.500",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pax": {
+      "nombreEmpresa": "Pax Assistance",
+      "tieneApiOficial": false,
+      "estadoIntegracion": "Sin API pública. Cotizador web protegido con reCAPTCHA",
+      "cotizar": {
+        "resultado": "ok",
+        "agenteEmisor": "ViajaSeguro",
+        "cotizacion": {
+          "parametros": {
+            "usuarioId": 1,
+            "origenId": 1,
+            "destinoId": 1004,
+            "fechaSalida": "2026-08-15",
+            "fechaRegreso": "2026-08-30",
+            "edades": [
+              35
+            ],
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "email": "cotizaciones@viajaseguro.com.ar",
+            "localeId": 1
+          },
+          "productos": [
+            {
+              "productoId": 501,
+              "productoNombre": "Pax Daily",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 60.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 8.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 700",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "65000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "65000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "65000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "65000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 502,
+              "productoNombre": "Pax Plus",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 150.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 15.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "92000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "92000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "92000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "92000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 503,
+              "productoNombre": "Pax Premium",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 300.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 300.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 25.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.500",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "128000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "128000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "128000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "128000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            }
+          ],
+          "guid": "538c9a230dd945718c3502bdb98a7be8",
+          "fecha": "2026-07-28T01:10:48Z"
+        },
+        "_esDummy": true
+      },
+      "detalle_productos": {
+        "resultado": "ok",
+        "productos": [
+          {
+            "productoId": 501,
+            "productoNombre": "Pax Daily",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 60.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 8.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 700",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 502,
+            "productoNombre": "Pax Plus",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 150.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 15.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 503,
+            "productoNombre": "Pax Premium",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 300.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 300.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 25.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.500",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "europassistance": {
+      "nombreEmpresa": "Europ Assistance",
+      "tieneApiOficial": "parcial",
+      "estadoIntegracion": "Tiene API/portal de autogestión para agencias (según prensa del sector), pero requiere alta comercial — no es autoservicio público",
+      "cotizar": {
+        "resultado": "ok",
+        "agenteEmisor": "ViajaSeguro",
+        "cotizacion": {
+          "parametros": {
+            "usuarioId": 1,
+            "origenId": 1,
+            "destinoId": 1004,
+            "fechaSalida": "2026-08-15",
+            "fechaRegreso": "2026-08-30",
+            "edades": [
+              35
+            ],
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "email": "cotizaciones@viajaseguro.com.ar",
+            "localeId": 1
+          },
+          "productos": [
+            {
+              "productoId": 601,
+              "productoNombre": "Europ Classic",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 35.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 35.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 5.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 500",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "60000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "60000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "60000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "60000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 602,
+              "productoNombre": "Europ Superior",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 100.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 100.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 12.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 800",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "85000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "85000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "85000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "85000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            },
+            {
+              "productoId": 603,
+              "productoNombre": "Europ Premium",
+              "tarifaAnual": false,
+              "maxDiasCorridos": null,
+              "prestaciones": [
+                {
+                  "prestacionId": 1,
+                  "nombre": "Asistencia médica por accidente",
+                  "prestacionCategoriaId": 1,
+                  "categoria": "Salud",
+                  "orden": 1,
+                  "valor": "USD 200.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 2,
+                  "nombre": "Asistencia médica por enfermedad",
+                  "prestacionCategoriaId": 2,
+                  "categoria": "Salud",
+                  "orden": 2,
+                  "valor": "USD 200.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 3,
+                  "nombre": "Asistencia médica por enfermedad preexistente",
+                  "prestacionCategoriaId": 3,
+                  "categoria": "Salud",
+                  "orden": 3,
+                  "valor": "USD 20.000",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 4,
+                  "nombre": "Traslado y/o repatriación sanitaria",
+                  "prestacionCategoriaId": 4,
+                  "categoria": "Salud",
+                  "orden": 4,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 5,
+                  "nombre": "Medicamentos ambulatorios",
+                  "prestacionCategoriaId": 5,
+                  "categoria": "Salud",
+                  "orden": 5,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 6,
+                  "nombre": "Odontología de urgencia",
+                  "prestacionCategoriaId": 6,
+                  "categoria": "Salud",
+                  "orden": 6,
+                  "valor": "USD 600",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 7,
+                  "nombre": "Gastos de cancelación / interrupción de viaje",
+                  "prestacionCategoriaId": 7,
+                  "categoria": "Viaje",
+                  "orden": 7,
+                  "valor": "USD 2.000 multicausa",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 8,
+                  "nombre": "Compensación por pérdida o demora de equipaje",
+                  "prestacionCategoriaId": 8,
+                  "categoria": "Equipaje",
+                  "orden": 8,
+                  "valor": "USD 1.200",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 9,
+                  "nombre": "Demora de vuelo",
+                  "prestacionCategoriaId": 9,
+                  "categoria": "Viaje",
+                  "orden": 9,
+                  "valor": "USD 50",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 10,
+                  "nombre": "Repatriación de restos",
+                  "prestacionCategoriaId": 10,
+                  "categoria": "Salud",
+                  "orden": 10,
+                  "valor": "Incluido en tope de cobertura médica",
+                  "mostrarEnCotizador": 1
+                },
+                {
+                  "prestacionId": 11,
+                  "nombre": "Regreso anticipado por enfermedad de un familiar",
+                  "prestacionCategoriaId": 11,
+                  "categoria": "Viaje",
+                  "orden": 11,
+                  "valor": "Sí",
+                  "mostrarEnCotizador": 0
+                },
+                {
+                  "prestacionId": 12,
+                  "nombre": "Transferencia de fondos en caso de emergencia",
+                  "prestacionCategoriaId": 12,
+                  "categoria": "Asistencia financiera",
+                  "orden": 12,
+                  "valor": "USD 4.000",
+                  "mostrarEnCotizador": 0
+                }
+              ],
+              "pasajeros": [
+                {
+                  "edad": 35,
+                  "costoLista": {
+                    "amount": "115000.00",
+                    "currency": 1,
+                    "scale": 2
+                  },
+                  "costoFinal": {
+                    "amount": "115000.00",
+                    "currency": 1,
+                    "scale": 2
+                  }
+                }
+              ],
+              "costoLista": {
+                "amount": "115000.00",
+                "currency": 1,
+                "scale": 2
+              },
+              "costoFinal": {
+                "amount": "115000.00",
+                "currency": 1,
+                "scale": 2
+              }
+            }
+          ],
+          "guid": "6e834baf0ea64d4c9c6109295a403d34",
+          "fecha": "2026-07-28T01:10:48Z"
+        },
+        "_esDummy": true
+      },
+      "detalle_productos": {
+        "resultado": "ok",
+        "productos": [
+          {
+            "productoId": 601,
+            "productoNombre": "Europ Classic",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 35.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 35.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 5.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 500",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 602,
+            "productoNombre": "Europ Superior",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 100.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 100.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 12.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 800",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          },
+          {
+            "productoId": 603,
+            "productoNombre": "Europ Premium",
+            "tarifaAnual": false,
+            "maxDiasCorridos": null,
+            "prestaciones": [
+              {
+                "prestacionId": 1,
+                "nombre": "Asistencia médica por accidente",
+                "prestacionCategoriaId": 1,
+                "categoria": "Salud",
+                "orden": 1,
+                "valor": "USD 200.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 2,
+                "nombre": "Asistencia médica por enfermedad",
+                "prestacionCategoriaId": 2,
+                "categoria": "Salud",
+                "orden": 2,
+                "valor": "USD 200.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 3,
+                "nombre": "Asistencia médica por enfermedad preexistente",
+                "prestacionCategoriaId": 3,
+                "categoria": "Salud",
+                "orden": 3,
+                "valor": "USD 20.000",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 4,
+                "nombre": "Traslado y/o repatriación sanitaria",
+                "prestacionCategoriaId": 4,
+                "categoria": "Salud",
+                "orden": 4,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 5,
+                "nombre": "Medicamentos ambulatorios",
+                "prestacionCategoriaId": 5,
+                "categoria": "Salud",
+                "orden": 5,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 6,
+                "nombre": "Odontología de urgencia",
+                "prestacionCategoriaId": 6,
+                "categoria": "Salud",
+                "orden": 6,
+                "valor": "USD 600",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 7,
+                "nombre": "Gastos de cancelación / interrupción de viaje",
+                "prestacionCategoriaId": 7,
+                "categoria": "Viaje",
+                "orden": 7,
+                "valor": "USD 2.000 multicausa",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 8,
+                "nombre": "Compensación por pérdida o demora de equipaje",
+                "prestacionCategoriaId": 8,
+                "categoria": "Equipaje",
+                "orden": 8,
+                "valor": "USD 1.200",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 9,
+                "nombre": "Demora de vuelo",
+                "prestacionCategoriaId": 9,
+                "categoria": "Viaje",
+                "orden": 9,
+                "valor": "USD 50",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 10,
+                "nombre": "Repatriación de restos",
+                "prestacionCategoriaId": 10,
+                "categoria": "Salud",
+                "orden": 10,
+                "valor": "Incluido en tope de cobertura médica",
+                "mostrarEnCotizador": 1
+              },
+              {
+                "prestacionId": 11,
+                "nombre": "Regreso anticipado por enfermedad de un familiar",
+                "prestacionCategoriaId": 11,
+                "categoria": "Viaje",
+                "orden": 11,
+                "valor": "Sí",
+                "mostrarEnCotizador": 0
+              },
+              {
+                "prestacionId": 12,
+                "nombre": "Transferencia de fondos en caso de emergencia",
+                "prestacionCategoriaId": 12,
+                "categoria": "Asistencia financiera",
+                "orden": 12,
+                "valor": "USD 4.000",
+                "mostrarEnCotizador": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
