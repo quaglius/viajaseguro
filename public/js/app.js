@@ -367,9 +367,16 @@
   // de los pasajeros de /emitir coincida exactamente con la cotización).
   let pasajerosContext = null; // { producto, index } del plan elegido en la lista de resultados
 
-  function opcionesSelect(items, valorPorDefecto) {
+  // Cardinal devuelve "Documento" a secas para el DNI — se lo etiqueta más
+  // claro para el usuario sin tocar el id real que se manda a la API.
+  const ETIQUETA_TIPO_DOCUMENTO = { Documento: 'DNI' };
+
+  function opcionesSelect(items, valorPorDefecto, etiquetas) {
     return (items || [])
-      .map((item) => `<option value="${item.id}"${String(item.id) === String(valorPorDefecto) ? ' selected' : ''}>${item.nombre}</option>`)
+      .map((item) => {
+        const label = (etiquetas && etiquetas[item.nombre]) || item.nombre;
+        return `<option value="${item.id}"${String(item.id) === String(valorPorDefecto) ? ' selected' : ''}>${label}</option>`;
+      })
       .join('');
   }
 
@@ -378,26 +385,52 @@
     return Object.entries(conteoViajeros).flatMap(([tipo, cantidad]) => Array(cantidad).fill(etiquetas[tipo]));
   }
 
+  // Datos de prueba para completar el form rápido en testing — igual quedan
+  // editables, es sólo un valor por defecto.
+  const NOMBRES_DUMMY = ['Juan', 'María', 'Carlos', 'Lucía', 'Martín', 'Sofía', 'Diego', 'Valentina'];
+  const APELLIDOS_DUMMY = ['Pérez', 'Gómez', 'Fernández', 'López', 'Díaz', 'Romero', 'Suárez', 'Acosta'];
+
+  function datosDummyPasajero(i) {
+    const nombre = NOMBRES_DUMMY[i % NOMBRES_DUMMY.length];
+    const apellido = APELLIDOS_DUMMY[i % APELLIDOS_DUMMY.length];
+    const sinAcentos = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+    return {
+      nombre,
+      apellido,
+      email: `${sinAcentos(nombre.toLowerCase())}.${sinAcentos(apellido.toLowerCase())}@viajaseguro.app`,
+      telefono: `+5491155501${String(100 + i).slice(-3)}`,
+      nroDocumento: String(30000000 + i * 1111),
+      fechaNacimiento: '1990-05-15',
+      domicilio: 'Av. Siempre Viva 123',
+      localidad: 'CABA',
+      emergenciaNombre: 'Ana',
+      emergenciaApellido: 'Torres',
+      emergenciaTelefono: '+5491155559999',
+    };
+  }
+
   function renderPasajeroFieldset(i, etiquetaTipo) {
     const tiposDocumentos = parametrosCache?.tiposDocumentos || [];
     const paises = parametrosCache?.paisesResidencia || [];
+    const dniId = tiposDocumentos.find((t) => t.nombre === 'Documento')?.id ?? tiposDocumentos[0]?.id;
+    const d = datosDummyPasajero(i);
     return `
       <fieldset class="pasajero-fieldset" data-pasajero="${i}">
         <legend>Pasajero ${i + 1}${etiquetaTipo ? ` · ${etiquetaTipo}` : ''}</legend>
         <div class="pasajero-grid">
-          <div class="field"><label>Nombre</label><input type="text" data-campo="nombre" required maxlength="100" /></div>
-          <div class="field"><label>Apellido</label><input type="text" data-campo="apellido" required maxlength="100" /></div>
-          <div class="field"><label>Email</label><input type="email" data-campo="email" required maxlength="100" /></div>
-          <div class="field"><label>Teléfono</label><input type="tel" data-campo="telefono" required maxlength="50" /></div>
-          <div class="field"><label>Tipo de documento</label><select data-campo="tipoDocumentoId" required><option value="">Seleccioná</option>${opcionesSelect(tiposDocumentos)}</select></div>
-          <div class="field"><label>N° de documento</label><input type="text" data-campo="nroDocumento" required maxlength="20" /></div>
-          <div class="field"><label>Fecha de nacimiento</label><input type="date" data-campo="fechaNacimiento" required /></div>
+          <div class="field"><label>Nombre</label><input type="text" data-campo="nombre" required maxlength="100" value="${d.nombre}" /></div>
+          <div class="field"><label>Apellido</label><input type="text" data-campo="apellido" required maxlength="100" value="${d.apellido}" /></div>
+          <div class="field"><label>Email</label><input type="email" data-campo="email" required maxlength="100" value="${d.email}" /></div>
+          <div class="field"><label>Teléfono</label><input type="tel" data-campo="telefono" required maxlength="50" value="${d.telefono}" /></div>
+          <div class="field"><label>Tipo de documento</label><select data-campo="tipoDocumentoId" required><option value="">Seleccioná</option>${opcionesSelect(tiposDocumentos, dniId, ETIQUETA_TIPO_DOCUMENTO)}</select></div>
+          <div class="field"><label>N° de documento</label><input type="text" data-campo="nroDocumento" required maxlength="20" value="${d.nroDocumento}" /></div>
+          <div class="field"><label>Fecha de nacimiento</label><input type="date" data-campo="fechaNacimiento" required value="${d.fechaNacimiento}" /></div>
           <div class="field"><label>País de residencia</label><select data-campo="paisId" required><option value="">Seleccioná</option>${opcionesSelect(paises, 6)}</select></div>
-          <div class="field pasajero-grid__ancho"><label>Domicilio</label><input type="text" data-campo="domicilio" required maxlength="250" /></div>
-          <div class="field"><label>Localidad</label><input type="text" data-campo="localidad" required maxlength="100" /></div>
-          <div class="field"><label>Emergencia — Nombre</label><input type="text" data-campo="emergenciaNombre" required maxlength="100" /></div>
-          <div class="field"><label>Emergencia — Apellido</label><input type="text" data-campo="emergenciaApellido" required maxlength="100" /></div>
-          <div class="field"><label>Emergencia — Teléfono</label><input type="tel" data-campo="emergenciaTelefono" required maxlength="50" /></div>
+          <div class="field pasajero-grid__ancho"><label>Domicilio</label><input type="text" data-campo="domicilio" required maxlength="250" value="${d.domicilio}" /></div>
+          <div class="field"><label>Localidad</label><input type="text" data-campo="localidad" required maxlength="100" value="${d.localidad}" /></div>
+          <div class="field"><label>Emergencia — Nombre</label><input type="text" data-campo="emergenciaNombre" required maxlength="100" value="${d.emergenciaNombre}" /></div>
+          <div class="field"><label>Emergencia — Apellido</label><input type="text" data-campo="emergenciaApellido" required maxlength="100" value="${d.emergenciaApellido}" /></div>
+          <div class="field"><label>Emergencia — Teléfono</label><input type="tel" data-campo="emergenciaTelefono" required maxlength="50" value="${d.emergenciaTelefono}" /></div>
         </div>
       </fieldset>
     `;
