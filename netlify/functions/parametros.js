@@ -10,7 +10,8 @@ exports.handler = async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         agenteEmisorGuid: CARDINAL_AGENTE_GUID,
-        parametros: 'origenes,destinos,paisesResidencia,monedas',
+        parametros: 'origenes,destinos,tiposDocumentos,paisesResidencia,monedas',
+        localeId: 1,
       }),
     });
     const data = await resp.json();

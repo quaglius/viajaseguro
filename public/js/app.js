@@ -98,7 +98,7 @@
   // Cacheados en localStorage 10 minutos: es un catálogo de países que casi
   // no cambia, y la llamada a Cardinal puede tardar — así el formulario queda
   // usable al instante en visitas repetidas.
-  const PARAMETROS_CACHE_KEY = 'vs_parametros_cache_v1';
+  const PARAMETROS_CACHE_KEY = 'vs_parametros_cache_v2'; // v2: ahora incluye tiposDocumentos
   const PARAMETROS_CACHE_MS = 10 * 60 * 1000;
 
   async function obtenerParametros() {
