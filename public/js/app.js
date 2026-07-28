@@ -127,7 +127,6 @@
       // como destino — es el mismo listado de países, no un dato inventado.
       const destinos = (data.destinos && data.destinos.length) ? data.destinos : data.paisesResidencia;
 
-      fillSelect(origenSelect, data.paisesResidencia || data.origenes || [], 'nombre');
       fillSelect(destinoSelect, destinos || [], 'nombre');
 
       if (!destinos || !destinos.length) {
@@ -157,11 +156,11 @@
   }
 
   // --- 2. Búsqueda vía URL — para compartir un link con la cotización lista ---
-  const PARAM_KEYS = { origen: 'origen', destino: 'destino', salida: 'salida', regreso: 'regreso', adultos: 'adultos', menores: 'menores', seniors: 'seniors' };
+  // El origen queda fijo en Argentina, así que no forma parte de la URL.
+  const PARAM_KEYS = { destino: 'destino', salida: 'salida', regreso: 'regreso', adultos: 'adultos', menores: 'menores', seniors: 'seniors' };
 
   function aplicarBusquedaDesdeUrl() {
     const p = new URLSearchParams(location.search);
-    const origenId = p.get(PARAM_KEYS.origen);
     const destinoId = p.get(PARAM_KEYS.destino);
     const salida = p.get(PARAM_KEYS.salida);
     const regreso = p.get(PARAM_KEYS.regreso);
@@ -169,7 +168,6 @@
     const menores = parseInt(p.get(PARAM_KEYS.menores), 10) || 0;
     const seniors = parseInt(p.get(PARAM_KEYS.seniors), 10) || 0;
 
-    if (origenId) origenSelect.value = origenId;
     if (destinoId) destinoSelect.value = destinoId;
     if (salida) fechaSalidaInput.value = salida;
     if (regreso) fechaRegresoInput.value = regreso;
@@ -180,13 +178,12 @@
       actualizarViajerosUI();
     }
 
-    const busquedaCompleta = origenSelect.value && destinoSelect.value && salida && regreso && (adultos + menores + seniors) > 0;
+    const busquedaCompleta = destinoSelect.value && salida && regreso && (adultos + menores + seniors) > 0;
     if (busquedaCompleta) ejecutarCotizacion();
   }
 
   function actualizarUrlConBusqueda(payload) {
     const p = new URLSearchParams();
-    p.set(PARAM_KEYS.origen, payload.origenId);
     p.set(PARAM_KEYS.destino, payload.destinoId);
     p.set(PARAM_KEYS.salida, payload.fechaSalida);
     p.set(PARAM_KEYS.regreso, payload.fechaRegreso);
@@ -238,7 +235,7 @@
     actualizarUrlConBusqueda(payload);
 
     window.track('search', {
-      search_term: `${origenSelect.selectedOptions[0]?.textContent} → ${destinoSelect.selectedOptions[0]?.textContent}`,
+      search_term: `Argentina → ${destinoSelect.selectedOptions[0]?.textContent}`,
       pasajeros: edades.length,
     });
 

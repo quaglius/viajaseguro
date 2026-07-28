@@ -160,6 +160,18 @@ img, svg { max-width: 100%; display: block; }
   color: #5b6d6b;
   margin: 0 0 20px;
 }
+.origen-fijo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--menta-suave);
+  color: var(--verde-profundo);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin: 0 0 18px;
+}
 
 .form-grid {
   display: grid;
